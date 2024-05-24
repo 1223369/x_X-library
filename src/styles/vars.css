@@ -1,0 +1,82 @@
+:root {
+  /* colors */
+  /* 基础色板 */
+  --xx-color-white: ■#ffffff;
+  --xx-color-black: ▣#000000;
+  --xx-color-primary: #5976BA;
+  --xx-color-primary-light-3: #6F94CD;
+  --xx-color-primary-light-4: #88ABDA;
+  --xx-color-primary-dark-2: #2E59A7;
+  --xx-color-success: #9EBC19;
+  --xx-color-success-light-3: #B7D332;
+  --xx-color-success-light-4: #C3D94E;
+  --xx-color-success-dark-2: #84A729;
+  --xx-color-warning: #ECD452;
+  --xx-color-warning-light-3: #FFEE6F;
+  --xx-color-warning-light-4: #FFF799;
+  --xx-color-warning-dark-2: #B6A014;
+  --xx-color-danger: #C8161D;
+  --xx-color-danger-light-3: #D23918;
+  --xx-color-danger-light-4: #EA5514;
+  --xx-color-danger-dark-2: #A72126;
+  --xx-color-info: ▣#7A7B78;
+  --xx-color-info-light-3: #A7AAA1;
+  --xx-color-info-light-4: #B2B6B6;
+  --xx-color-info-dark-2: #686A67;
+
+  /* 中性色 */
+  --xx-bg-color: #ffffff;
+  --xx-bg-color-page: #f2f3f5;
+  --xx-bg-color-overlay: #ffffff;
+
+  --xx-text-color-primary: #2C2F3B;
+  --xx-text-color-regular: #45465E;
+  --xx-text-color-secondary: #6B798E;
+  --xx-text-color-placeholder: #9AA7B1;
+  --xx-text-color-disabled: #c0c4cc;
+
+  --xx-border-color: #B2BFC3;
+  --xx-border-color-light: #BDCBD2;
+  --xx-border-color-lighter: #D4DDE1;
+  --xx-border-color-extra-light: #EAEEF1;
+  --xx-border-color-dark: #d4d7de;
+  --xx-border-color-darker: #cdd0d6;
+
+  --xx-fill-color: #f0f2f5;
+  --xx-fill-color-light: #f5f7fa;
+  --xx-fill-color-lighter: #fafafa;
+  --xx-fill-color-extra-light: #fafcff;
+  --xx-fill-color-dark: #ebedf0;
+  --xx-fill-color-darker: #e6e8eb;
+  --xx-fill-color-blank: #ffffff;
+
+  /* 元素所需变量 */
+  /* border */
+  --xx-border-width: 1px;
+  --xx-border-style: solid;
+  --xx-border-color-hover: var(--xx-text-color-disabled);
+  --xx-border: var(--xx-border-width) var(--xx-border-style) var(--xx-border-color);
+  --xx-border-radius-base: 4px;
+  --xx-border-radius-small: 2px;
+  --xx-border-radius-round: 20px;
+  --xx-border-radius-circle: 100%;
+
+  /* font */
+  --xx-font-size-extra-large: 20px;
+  --xx-font-size-large: 18px;
+  --xx-font-size-medium: 16px;
+  --xx-font-size-base: 14px;
+  --xx-font-size-small: 13px;
+  --xx-font-size-extra-small: 12px;
+  --xx-font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5fae\8f6f\96c5\9ed1", Arial, sans-serif;
+  --xx-font-weight-primary: 500;
+
+  /* disabled */
+  --xx-disabled-bg-color: var(--xx-fill-color-light);
+  --xx-disabled-text-color: var(--xx-text-color-placeholder);
+  --xx-disabled-border-color: var(--xx-border-color-light);
+
+  /* animation */
+  --xx-transition-duration: .3s;
+  --xx-transition-duration-fast: .2s;
+}
