@@ -25,7 +25,7 @@
   import { defineComponent } from 'vue'
   export default defineComponent({
   // 定义组件名称
-  name: 'XxButton',
+  name: 'xxButton',
   })
 </script>
 

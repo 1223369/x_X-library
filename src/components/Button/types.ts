@@ -1,5 +1,3 @@
-import type { PropType } from "vue";
-
 /**
  * ButtonType 按钮类型
  * ButtonSize 按钮大小
