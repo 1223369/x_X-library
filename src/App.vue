@@ -12,6 +12,11 @@ onMounted(() => {
 
 <template>
   <Button type="primary" plain disabled ref="buttonRef">确认</Button>
+  <h1>hello world</h1>
+  <h2>hello world</h2>
+  <h3>hello world</h3>
+  <hr />
+  
 </template>
 
 <style scoped></style>

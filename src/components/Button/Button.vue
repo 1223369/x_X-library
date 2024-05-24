@@ -47,8 +47,5 @@ defineExpose({
 </script>
 
 <style>
-.xx-button {
-  --main-bg-color: yellow;
-  background-color: var(--main-bg-color)
-}
+
 </style>
