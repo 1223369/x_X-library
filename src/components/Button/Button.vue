@@ -1,5 +1,6 @@
 <template>
   <button
+    ref="_ref"
     class="xx-button"
     :class="{
       [`xx-button--${type}`]: type,
@@ -10,6 +11,8 @@
       'is-disabled': disabled
     }"
     :disabled="disabled"
+    :autofocus="autofocus"
+    :type="nativeType"
     >
      <span>
       <slot></slot>
@@ -25,11 +28,27 @@
   name: 'XxButton',
   })
 </script>
+
 <script setup lang="ts">
+import { ref } from 'vue'
 import type { ButtonProps } from './types'
-defineProps<ButtonProps>()
+
+// 设置组件默认值
+withDefaults(defineProps<ButtonProps>(), {
+  nativeType: 'button',
+})
+
+// 获取Dom元素
+const _ref = ref<HTMLButtonElement>()
+// 暴露组件实例
+defineExpose({
+  ref: _ref,
+})
 </script>
 
-<style scoped>
-
+<style>
+.xx-button {
+  --main-bg-color: yellow;
+  background-color: var(--main-bg-color)
+}
 </style>
