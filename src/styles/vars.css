@@ -1,29 +1,24 @@
 :root {
   /* colors */
   /* 基础色板 */
-  --xx-color-white: ■#ffffff;
-  --xx-color-black: ▣#000000;
-  --xx-color-primary: #5976BA;
-  --xx-color-primary-light-3: #6F94CD;
-  --xx-color-primary-light-4: #88ABDA;
-  --xx-color-primary-dark-2: #2E59A7;
-  --xx-color-success: #9EBC19;
-  --xx-color-success-light-3: #B7D332;
-  --xx-color-success-light-4: #C3D94E;
-  --xx-color-success-dark-2: #84A729;
-  --xx-color-warning: #ECD452;
-  --xx-color-warning-light-3: #FFEE6F;
-  --xx-color-warning-light-4: #FFF799;
-  --xx-color-warning-dark-2: #B6A014;
-  --xx-color-danger: #C8161D;
-  --xx-color-danger-light-3: #D23918;
-  --xx-color-danger-light-4: #EA5514;
-  --xx-color-danger-dark-2: #A72126;
-  --xx-color-info: ▣#7A7B78;
-  --xx-color-info-light-3: #A7AAA1;
-  --xx-color-info-light-4: #B2B6B6;
-  --xx-color-info-dark-2: #686A67;
+  --xx-color-white: #ffffff;
+  --xx-color-black: #000000;
+  --colors: (
+    primary: #5976BA,
+    success: #9EBC19,
+    warning: #ECD452,
+    danger: #C8161D,
+    info: #7A7B78
+  );
 
+  @each $val, $color in var(--colors){
+    --xx-color-$(val): $(color);
+    @for $i from 3 to 9 by 2 {
+      --xx-color-$(val)-light-$(i): mix(#fff, $(color), .$(i));
+    }
+    --xx-color-$(val)-light-8: mix(#fff, $(color), .8);
+    --xx-color-$(val)-dark-2: mix(#000, $(color), .2);
+  }
   /* 中性色 */
   --xx-bg-color: #ffffff;
   --xx-bg-color-page: #f2f3f5;

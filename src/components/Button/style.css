@@ -7,12 +7,12 @@
   --xx-button-disabled-bg-color: var(--xx-fill-color-blank);
   --xx-button-disabled-border-color: var(--xx-border-color-light);
   --xx-button-hover-text-color: var(--xx-color-primary);
-  --xx-button-hover-bg-color: var(--xx-color-primary-light-4);
-  --xx-button-hover-border-color: var(--xx-color-primary-light-3);
+  --xx-button-hover-bg-color: var(--xx-color-primary-light-9);
+  --xx-button-hover-border-color: var(--xx-color-primary-light-7);
   --xx-button-active-text-color: var(--xx-button-hover-text-color);
   --xx-button-active-border-color: var(--xx-color-primary);
   --xx-button-active-bg-color: var(--xx-button-hover-bg-color);
-  --xx-button-outline-color: var(--xx-color-primary-light-4);
+  --xx-button-outline-color: var(--xx-color-primary-light-5);
   --xx-button-active-color: var(--xx-text-color-primary);
 }
 
@@ -89,7 +89,7 @@
     --xx-button-text-color: var(--xx-color-white);
     --xx-button-bg-color: var(--xx-color-$(val));
     --xx-button-border-color: var(--xx-color-$(val));
-    --xx-button-outline-color: var(--xx-color-$(val)-light-3);
+    --xx-button-outline-color: var(--xx-color-$(val)-light-5);
     --xx-button-active-color: var(--xx-color-$(val)-dark-2);
     --xx-button-hover-text-color: var(--xx-color-white);
     --xx-button-hover-bg-color: var(--xx-color-$(val)-light-3);
@@ -97,13 +97,13 @@
     --xx-button-active-bg-color: var(--xx-color-$(val)-dark-2);
     --xx-button-active-border-color: var(--xx-color-$(val)-dark-2);
     --xx-button-disabled-text-color: var(--xx-color-white);
-    --xx-button-disabled-bg-color: var(--xx-color-$(val)-light-3);
-    --xx-button-disabled-border-color: var(--xx-color-$(val)-light-3);
+    --xx-button-disabled-bg-color: var(--xx-color-$(val)-light-5);
+    --xx-button-disabled-border-color: var(--xx-color-$(val)-light-5);
   }
   .xx-button--$(val).is-plain {
     --xx-button-text-color: var(--xx-color-$(val));
-    --xx-button-bg-color: var(--xx-color-$(val)-light-4);
-    --xx-button-border-color: var(--xx-color-$(val)-light-4);
+    --xx-button-bg-color: var(--xx-color-$(val)-light-9);
+    --xx-button-border-color: var(--xx-color-$(val)-light-5);
     --xx-button-hover-text-color: var(--xx-color-white);
     --xx-button-hover-bg-color: var(--xx-color-$(val));
     --xx-button-hover-border-color: var(--xx-color-$(val));
