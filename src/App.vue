@@ -6,8 +6,7 @@ import type { ButtonInstance } from "./components/Button/types"
 // 获取子组件实例|Button
 const buttonRef = ref<ButtonInstance | null>(null);
 onMounted(() => {
-  if (buttonRef.value) console.log('buttonRef', buttonRef.value.ref)
-  
+
 });
 </script>
 
