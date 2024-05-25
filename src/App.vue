@@ -39,13 +39,14 @@ onMounted(() => {});
           nice Title
         </h1>
       </template>
-      <h1>headline title</h1>
       <div>this is content a aaa</div>
     </CollapseItem>
-    <CollapseItem  name="b" title="Title B" disabled>
+    <CollapseItem  name="b" title="Title B">
       <div>this is content bbb</div>
     </CollapseItem>
   </Collapse>
 </template>
 
-<style scoped></style>
+<style scoped>
+  
+</style>
