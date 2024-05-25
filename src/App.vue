@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import Button from "./components/Button/Button.vue";
+import Collapse from "./components/Collapse/Collapse.vue";
+import CollapseItem from "./components/Collapse/CollapseItem.vue";
 import { ref, onMounted } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
 
@@ -9,12 +11,13 @@ onMounted(() => {});
 </script>
 
 <template>
+  <h3>Button</h3>
   <Button ref="buttonRef">Test Button</Button>
   <Button plain>Plain Button</Button>
   <Button round>Round Button</Button>
   <Button circle>VK</Button>
   <Button disabled>Disabled Button</Button><br /><br />
-  
+
   <Button type="primary">Primary</Button>
   <Button type="success">Success</Button>
   <Button type="info">Info</Button>
@@ -27,8 +30,22 @@ onMounted(() => {});
   <Button type="danger" plain>Danger</Button><br /><br />
   <Button size="large">Large</Button>
   <Button size="small">Small</Button><br /><br />
+
+  <h3>Collapse</h3>
+  <Collapse>
+    <CollapseItem name="a">
+      <template #title>
+        <h1>
+          nice Title
+        </h1>
+      </template>
+      <h1>headline title</h1>
+      <div>this is content a aaa</div>
+    </CollapseItem>
+    <CollapseItem  name="b" title="Title B" disabled>
+      <div>this is content bbb</div>
+    </CollapseItem>
+  </Collapse>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -28,7 +28,7 @@
   text-align: center;
   box-sizing: border-box;
   outline: none;
-  transition: .1s;
+  transition: 0.2s;
   font-weight: var(--xx-button-font-weight);
   user-select: none;
   vertical-align: middle;
@@ -39,6 +39,7 @@
   padding: 8px 15px;
   font-size: var(--xx-font-size-base);
   border-radius: var(--xx-border-radius-base);
+
   & + & {
     margin-left: 12px;
   }
@@ -47,7 +48,7 @@
     color: var(--xx-button-hover-text-color);
     border-color: var(--xx-button-hover-border-color);
     background-color: var(--xx-button-hover-bg-color);
-    outline: none;    
+    outline: none;
   }
   &:active {
     color: var(--xx-button-active-text-color);
@@ -58,7 +59,7 @@
   &.is-plain {
     --xx-button-hover-text-color: var(--xx-color-primary);
     --xx-button-hover-bg-color: var(--xx-fill-color-blank);
-    --xx-button-hover-border-color: var(--xx-color-primary);    
+    --xx-button-hover-border-color: var(--xx-color-primary);
   }
   /*round*/
   &.is-round {
@@ -70,21 +71,24 @@
     padding: 8px;
   }
   /*disabled*/
-  &.is-disabled, &.is-disabled:hover, &.is-disabled:focus,
-  &[disabled], &[disabled]:hover, &[disabled]:focus 
-  {
+  &.is-disabled,
+  &.is-disabled:hover,
+  &.is-disabled:focus,
+  &[disabled],
+  &[disabled]:hover,
+  &[disabled]:focus {
     color: var(--xx-button-disabled-text-color);
     cursor: not-allowed;
     background-image: none;
     background-color: var(--xx-button-disabled-bg-color);
     border-color: var(--xx-button-disabled-border-color);
   }
-  [class*=xx-icon] + span {
+  [class*="xx-icon"] + span {
     margin-left: 6px;
   }
 }
 /* 循环生成不同颜色的按钮样式 */
-@each $val in primary,success,warning,info,danger {
+@each $val in primary, success, warning, info, danger {
   .xx-button--$(val) {
     --xx-button-text-color: var(--xx-color-white);
     --xx-button-bg-color: var(--xx-color-$(val));
@@ -111,7 +115,6 @@
   }
 }
 
-
 .xx-button--large {
   --xx-button-size: 40px;
   height: var(--xx-button-size);
@@ -126,4 +129,3 @@
   font-size: 12px;
   border-radius: calc(var(--xx-border-radius-base) - 1px);
 }
-
