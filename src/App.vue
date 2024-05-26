@@ -2,12 +2,14 @@
 import Button from "./components/Button/Button.vue";
 import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
+
+// Collapse被打开的项
+const openedValue = ref(['a'])
 
 // 获取子组件实例|Button
 const buttonRef = ref<ButtonInstance | null>(null);
-onMounted(() => {});
 </script>
 
 <template>
@@ -32,7 +34,7 @@ onMounted(() => {});
   <Button size="small">Small</Button><br /><br />
 
   <h3>Collapse</h3>
-  <Collapse>
+  <Collapse v-model="openedValue">
     <CollapseItem name="a">
       <template #title>
         <h1>
@@ -45,6 +47,7 @@ onMounted(() => {});
       <div>this is content bbb</div>
     </CollapseItem>
   </Collapse>
+  {{ openedValue }}
 </template>
 
 <style scoped>

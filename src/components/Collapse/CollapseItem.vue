@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CollapseItemProps } from "./types";
-import { inject, computed } from 'vue'
+import { inject, computed, ref } from 'vue'
 import { collapseContextKey } from './types'
 
 
@@ -14,14 +14,14 @@ const props = defineProps<CollapseItemProps>();
 const collapseContext = inject(collapseContextKey)
 
 // 判断是否为展开状态 | 已存在=已打开
-const isActive = computed(() => collapseContext.activeNames.value.includes(props.name))
+const isActive = computed(() => collapseContext?.activeNames.value.includes(props.name))
 
 // 处理函数
 const handleClick = () => {
   if (props.disabled) return
 
   // 其他情况继续
-  collapseContext.handleItemClick(props.name)
+  collapseContext?.handleItemClick(props.name)
 }
 
 </script>
