@@ -1,0 +1,54 @@
+.xx-collapse {
+  --xx-collapse-border-color: var(--xx-border-color-light);
+  --xx-collapse-header-height: 48px;
+  --xx-collapse-header-bg-color: var(--xx-fill-color-blank);
+  --xx-collapse-header-text-color: var(--xx-text-color-primary);
+  --xx-collapse-header-font-size: 13px;
+  --xx-collapse-content-bg-color: var(--xx-fill-color-blank);
+  --xx-collapse-content-font-size: 13px;
+  --xx-collapse-content-text-color: var(--xx-text-color-primary);
+  --xx-collapse-disabled-text-color: var(--xx-disabled-text-color);
+  --xx-collapse-disabled-border-color: var(--xx-border-color-lighter);
+  border-top: 1px solid var(--xx-collapse-border-color);
+  border-bottom: 1px solid var(--xx-collapse-border-color);
+}
+
+.xx-collapse-item__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--xx-collapse-header-height);
+  line-height: var(--xx-collapse-header-height);
+  background-color: var(--xx-collapse-header-bg-color);
+  color: var(--xx-collapse-header-text-color);
+  cursor: pointer;
+  font-size: var(--xx-collapse-header-font-size);
+  font-weight: 500;
+  transition: border-bottom-color var(--xx-transition-duration);
+  outline: none;
+  border-bottom: 1px solid var(--xx-collapse-border-color);
+  &.is-disabled {
+    color: var(--xx-collapse-disabled-text-color);
+    cursor: not-allowed;
+    background-image: none;
+  }
+
+  &.is-active {
+    border-bottom-color: transparent;
+  }
+}
+.xx-collapse-item__content {
+  will-change: height;
+  background-color: var(--xx-collapse-content-bg-color);
+  overflow: hidden;
+  box-sizing: border-box;
+  font-size: var(--xx-collapse-content-font-size);
+  color: var(--xx-collapse-content-text-color);
+  border-bottom: 1px solid var(--xx-collapse-border-color);
+  padding-bottom: 25px;
+}
+
+/* 添加collapse内容的动画效果 */
+.slide-enter-active, .slide-leave-active {
+  transition: height .3s ease-in-out;
+}

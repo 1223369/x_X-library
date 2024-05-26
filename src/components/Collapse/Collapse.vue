@@ -62,4 +62,3 @@ provide(collapseContextKey, {
   </div>
 </template>
 
-<style scoped lang="scss"></style>

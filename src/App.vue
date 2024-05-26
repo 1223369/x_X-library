@@ -6,7 +6,7 @@ import { ref } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
 
 // Collapse被打开的项
-const openedValue = ref(['a'])
+const openedValue = ref(["a"]);
 
 // 获取子组件实例|Button
 const buttonRef = ref<ButtonInstance | null>(null);
@@ -37,19 +37,18 @@ const buttonRef = ref<ButtonInstance | null>(null);
   <Collapse v-model="openedValue">
     <CollapseItem name="a">
       <template #title>
-        <h1>
-          nice Title
-        </h1>
+        <h1>nice Title</h1>
       </template>
+      <h1>headline title</h1>
       <div>this is content a aaa</div>
     </CollapseItem>
-    <CollapseItem  name="b" title="Title B">
+    <CollapseItem name="b" title="Title B">
       <div>this is content bbb</div>
     </CollapseItem>
+    <CollapseItem name="c" title="Disabled Title" disabled>
+      <div>this is cccc test</div>
+    </CollapseItem>
   </Collapse>
-  {{ openedValue }}
 </template>
 
-<style scoped>
-  
-</style>
+<style scoped></style>
