@@ -1,0 +1,15 @@
+.xx-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  fill: currentColor;
+  color: var(--xx-icon-color);
+  font-size: inherit;
+}
+
+@each $val in primary,info,success,warning,danger {
+  .xx-icon--$(val) {
+    --xx-icon-color: var(--xx-color-$(val));
+  }
+}

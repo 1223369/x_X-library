@@ -6,6 +6,13 @@ import Icon from "./components/Icon/Icon.vue";
 import { ref } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
 
+// 测试数据
+const size = ref<any>('4x')
+// 测试行为
+setTimeout(() => {
+  size.value = '2xl'
+},2000)
+
 // Collapse被打开的项
 const openedValue = ref(["a"]);
 
@@ -55,7 +62,7 @@ const buttonRef = ref<ButtonInstance | null>(null);
 
   <!-- Icon -->
   <h3>Icon</h3>
-  <Icon icon='user-secret' size='2xl'></Icon>
+  <Icon icon='user-secret' :size='size' color='blue'></Icon>
 </template>
 
 <style scoped></style>
