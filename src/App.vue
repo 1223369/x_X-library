@@ -2,6 +2,7 @@
 import Button from "./components/Button/Button.vue";
 import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
+import Icon from "./components/Icon/Icon.vue";
 import { ref } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
 
@@ -46,9 +47,15 @@ const buttonRef = ref<ButtonInstance | null>(null);
       <div>this is content bbb</div>
     </CollapseItem>
     <CollapseItem name="c" title="Disabled Title" disabled>
-      <div>this is cccc test</div>
+      <div>
+        this is cccc test
+      </div>
     </CollapseItem>
   </Collapse>
+
+  <!-- Icon -->
+  <h3>Icon</h3>
+  <Icon icon='user-secret' size='2xl'></Icon>
 </template>
 
 <style scoped></style>
