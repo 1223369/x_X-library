@@ -26,6 +26,7 @@ const customStyle = computed(() =>{
     class="xx-icon"
     :class="{[`xx-icon--${type}`] : type}"
     :style="customStyle"
+    v-bind="$attrs"
   >
     <font-awesome-icon v-bind="fillteredProps"/>
   </i>

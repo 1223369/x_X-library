@@ -83,6 +83,7 @@
     background-color: var(--xx-button-disabled-bg-color);
     border-color: var(--xx-button-disabled-border-color);
   }
+  /* 条件判断,Icon与span时加间距 */
   [class*="xx-icon"] + span {
     margin-left: 6px;
   }

@@ -17,6 +17,8 @@ export interface ButtonProps {
   disabled?: boolean; // 按钮是否禁用
   nativeType?: NativeType; // 按钮的原生类型
   autofocus?: boolean; // 按钮是否自动获取焦点
+  icon?: string; // 按钮的图标
+  loading?: boolean; // 按钮是否处于加载中状态
 }
 
 // 定义Button的类型 | ref

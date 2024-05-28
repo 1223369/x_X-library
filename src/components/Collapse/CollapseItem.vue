@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { CollapseItemProps } from "./types";
-import { inject, computed, ref } from "vue";
+import { inject, computed } from "vue";
 import { collapseContextKey } from "./types";
+import Icon from '../Icon/Icon.vue'
 
 defineOptions({
   name: "XxCollapseItem",
@@ -70,6 +71,7 @@ const transitionEvents: Record<string, (el: HTMLElement) => void> = {
       @click="handleClick"
     >
       <slot name="title">{{ title }}</slot>
+      <Icon icon="angle-right" class="header-angle"></Icon>
     </div>
 
     <!-- 内容 -->

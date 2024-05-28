@@ -40,6 +40,8 @@ const buttonRef = ref<ButtonInstance | null>(null);
   <Button type="danger" plain>Danger</Button><br /><br />
   <Button size="large">Large</Button>
   <Button size="small">Small</Button><br /><br />
+  <Button size="large" loading>loading</Button>
+  <Button size="large" icon="arrow-up">Icon</Button><br /><br />
 
   <h3>Collapse</h3>
   <Collapse v-model="openedValue">
