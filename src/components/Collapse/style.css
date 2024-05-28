@@ -56,8 +56,8 @@
   border-bottom: 1px solid var(--xx-collapse-border-color);
   padding-bottom: 25px;
 }
-
-/* 添加collapse内容的动画效果 */
+ 
+/* 添加collapse内容的动画效果 */ 
 .slide-enter-active, .slide-leave-active {
   transition: height var(--xx-transition-duration);
 }
