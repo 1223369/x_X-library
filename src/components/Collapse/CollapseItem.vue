@@ -76,7 +76,7 @@ const transitionEvents: Record<string, (el: HTMLElement) => void> = {
 
     <!-- 内容 -->
     <Transition name="slide" v-on="transitionEvents">
-      <div class="xx-collapse-wrapper" v-show="isActive">
+      <div class="xx-collapse-item__wrapper" v-show="isActive">
         <div class="xx-collapse-item__content" :id="`item-content-${name}`">
           <slot></slot>
         </div>
