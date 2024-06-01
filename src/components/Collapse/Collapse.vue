@@ -22,7 +22,7 @@ const activeNames = ref<NameType[]>(props.modelValue || []);
 
 // 点击事件
 const handleItemClick = (item: NameType) => {
-  // 解决点击事件冒泡导致activeNames更新两次--由响应式数据转换成响应式数组
+  // 解决点击事件冒泡导致activeNames更新两次--由响应式数据转换成响应式数组 
   let _activeNames = [...activeNames.value];
   // 判断是否存在
   const index = _activeNames.indexOf(item);
@@ -30,8 +30,8 @@ const handleItemClick = (item: NameType) => {
   // 手风琴效果实现
   if (props.accordion) {
     // 手风琴效果，只保留第一个激活项
-    _activeNames = [activeNames.value[0] === item ? "" : item];
-    activeNames.value = _activeNames;
+    _activeNames = [activeNames.value[0] === item ? "" : item]
+    activeNames.value = _activeNames
   } else {
     if (index > -1) {
       // 存在则删除
