@@ -1,12 +1,15 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import Collapse from './Collapse.vue'
 import CollapseItem from './CollapseItem.vue'
 
 describe('Collapse.vue', () => {
   test('basic collapse', async () => {
+
+    const onChange = vi.fn()
+
     const wrapper = mount(() =>
-      <Collapse modelValue={['a']}>
+      <Collapse modelValue={['a']} onChange={onChange}>
         <CollapseItem name="a" title="title a">
           content a
         </CollapseItem>
@@ -34,6 +37,7 @@ describe('Collapse.vue', () => {
 
     // 文本
     const firstHeader = headers[0]
+    const secondHeader = headers[1]
     expect(firstHeader.text()).toBe('title a')
 
     // 内容
@@ -45,6 +49,9 @@ describe('Collapse.vue', () => {
     // 行为
     await firstHeader.trigger('click')
     expect(firstContent.isVisible()).toBeFalsy()
+    await secondHeader.trigger('click')
+    expect(onChange).toHaveBeenCalledWith([])
+    expect(onChange).toHaveBeenLastCalledWith(['b'])
 
     // disabled
     const disabledHeader = headers[2]

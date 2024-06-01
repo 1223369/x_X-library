@@ -22,26 +22,30 @@ const activeNames = ref<NameType[]>(props.modelValue || []);
 
 // 点击事件
 const handleItemClick = (item: NameType) => {
+  // 解决点击事件冒泡导致activeNames更新两次--由响应式数据转换成响应式数组
+  let _activeNames = [...activeNames.value];
   // 判断是否存在
-  const index = activeNames.value.indexOf(item);
+  const index = _activeNames.indexOf(item);
 
   // 手风琴效果实现
   if (props.accordion) {
     // 手风琴效果，只保留第一个激活项
-    activeNames.value = [activeNames.value[0] === item ? "" : item];
+    _activeNames = [activeNames.value[0] === item ? "" : item];
+    activeNames.value = _activeNames;
   } else {
     if (index > -1) {
       // 存在则删除
-      activeNames.value.splice(index, 1);
+      _activeNames.splice(index, 1);
     } else {
       // 不存在则新增
-      activeNames.value.push(item);
+      _activeNames.push(item);
     }
+    activeNames.value = _activeNames;
   }
 
   // 发射触发事件
-  emits("update:modelValue", activeNames.value);
-  emits("change", activeNames.value);
+  emits("update:modelValue", _activeNames);
+  emits("change", _activeNames);
 };
 
 // 判断是否能使用手风琴效果
