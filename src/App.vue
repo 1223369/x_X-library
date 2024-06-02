@@ -3,29 +3,41 @@ import Button from "./components/Button/Button.vue";
 import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
 import Icon from "./components/Icon/Icon.vue";
+import Tooltip from "./components/Tooltip/Tooltip.vue";
 import { ref } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
 
 // 测试数据
-const size = ref<any>('4x')
+const size = ref<any>("4x");
 // 测试行为
 setTimeout(() => {
-  size.value = '2xl'
-},2000)
+  size.value = "2xl";
+}, 2000);
 
 // Collapse被打开的项
 const openedValue = ref(["a"]);
+
 
 // 获取子组件实例|Button
 const buttonRef = ref<ButtonInstance | null>(null);
 </script>
 
 <template>
+
+  <header>
+    <Tooltip content="hello world" placement="right">
+      <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125"/>
+      <template #content>
+        <h1>This is a tooltip</h1>
+      </template>
+    </Tooltip> 
+  </header>
+
   <h3>Button</h3>
   <Button ref="buttonRef">Test Button</Button>
   <Button plain>Plain Button</Button>
   <Button round>Round Button</Button>
-  <Button circle>VK</Button>
+  <Button circle>XX</Button>
   <Button disabled>Disabled Button</Button><br /><br />
 
   <Button type="primary">Primary</Button>
@@ -56,15 +68,21 @@ const buttonRef = ref<ButtonInstance | null>(null);
       <div>this is content bbb</div>
     </CollapseItem>
     <CollapseItem name="c" title="Disabled Title" disabled>
-      <div>
-        this is cccc test
-      </div>
+      <div>this is cccc test</div>
     </CollapseItem>
   </Collapse>
 
   <!-- Icon -->
   <h3>Icon</h3>
-  <Icon icon='user-secret' :size='size' color='blue'></Icon>
+  <Icon icon="user-secret" :size="size" color="blue"></Icon>
 </template>
 
-<style scoped></style>
+<style scoped>
+@media (min-width: 1024px) {
+  header {
+    display: flex;
+    place-items: center;
+    padding-right: calc(var(--section-gap) / 2);
+  }
+}
+</style>

@@ -9,5 +9,4 @@ import './styles/index.css'
 
 // add the fontawesome icon library to the library
 library.add(fas)
-console.log(App.render?.toString())
 createApp(App).mount('#app')
