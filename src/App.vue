@@ -9,23 +9,28 @@ import type { ButtonInstance } from "./components/Button/types";
 
 // 测试数据
 const size = ref<any>("4x");
-// 测试行为
-setTimeout(() => {
-  size.value = "2xl";
-}, 2000);
+
+
+// 测试Tooltip动态事件
+const trigger = ref<any>("click");
 
 // Collapse被打开的项
 const openedValue = ref(["a"]);
 
-
 // 获取子组件实例|Button
 const buttonRef = ref<ButtonInstance | null>(null);
+
+// 测试行为
+setTimeout(() => {
+  size.value = "2xl";
+  trigger.value = "hover";
+}, 2000);
 </script>
 
 <template>
 
   <header>
-    <Tooltip content="hello world" placement="right">
+    <Tooltip placement="right" :trigger="trigger">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125"/>
       <template #content>
         <h1>This is a tooltip</h1>
