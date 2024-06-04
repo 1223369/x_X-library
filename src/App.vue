@@ -7,6 +7,7 @@ import Tooltip from "./components/Tooltip/Tooltip.vue";
 import { ref } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
 import type { TooltipInstance } from "./components/Tooltip/types";
+import type { Options } from "@popperjs/core";
 
 // 测试数据
 const size = ref<any>("4x");
@@ -26,6 +27,11 @@ const open = () => {
 const close = () => {
   tooltipRef.value?.hide();
 }
+// 测试Tooltip的popper配置项
+const options: Partial<Options> = {
+  placement: "right-end",
+  strategy: "fixed",
+}
 
 // 测试行为
 setTimeout(() => {
@@ -37,7 +43,7 @@ setTimeout(() => {
 <template>
 
   <header>
-    <Tooltip placement="right" :trigger="trigger" manual ref="tooltipRef">
+    <Tooltip placement="right" :trigger="trigger" manual ref="tooltipRef" :popper-options="options">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125"/>
       <template #content>
         <h1>This is a tooltip</h1>

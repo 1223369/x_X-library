@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, onUnmounted } from "vue";
+import { ref, reactive, watch, onUnmounted, computed } from "vue";
 import type { Instance } from '@popperjs/core'
 import type { TooltipProps, TooltipEmits, TooltipInstance } from "./types";
 import { createPopper } from '@popperjs/core'
@@ -9,9 +9,16 @@ const isOpen = ref(false);
 const popperNode = ref<HTMLElement>(); // 弹出框节点
 const triggerNode = ref<HTMLElement>(); // 触发器节点
 const popperContainerNode = ref<HTMLElement>(); // 弹出框容器节点
+const popperOptions = computed(() => {
+  return {
+    placement: props.placement,
+    ...props.popperOptions,
+  }
+})
 let popperInstance: null | Instance; // 弹出框实例
 let events: Record<string, any> = reactive({}); // 事件集合
 let outerEvents: Record<string, any> = reactive({}); // 外部事件集合
+
 
 // 显示弹出框 -- hover
 const open = () => {
@@ -45,9 +52,7 @@ watch(isOpen, (newValue) => {
   if (newValue) {
     // 显示弹出框
     if(popperNode.value && triggerNode.value) {
-      popperInstance = createPopper(triggerNode.value, popperNode.value, {
-        placement: props.placement,
-      });
+      popperInstance = createPopper(triggerNode.value, popperNode.value, popperOptions.value);
     } else {
       popperInstance?.destroy();
     }
