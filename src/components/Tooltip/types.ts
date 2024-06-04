@@ -6,6 +6,7 @@ export interface TooltipProps {
     placement?: Placement;
     manual?: boolean; // 是否手动控制显示隐藏
     popperOptions?: Partial<Options>; // popper.js 的配置项 | Partial-将必选转换为可选
+    transition?: string; // 动画效果
 }
 
 // 事件类型
