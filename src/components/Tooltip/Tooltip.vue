@@ -3,10 +3,13 @@ import { ref, reactive,watch } from "vue";
 import type { Instance } from '@popperjs/core'
 import type { TooltipProps, TooltipEmits } from "./types";
 import { createPopper } from '@popperjs/core'
+import useClickOutside from "@/hooks/useClickOutside";
+import { c } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 const isOpen = ref(false);
 const popperNode = ref<HTMLElement>(); // 弹出框节点
 const triggerNode = ref<HTMLElement>(); // 触发器节点
+const popperContainerNode = ref<HTMLElement>(); // 弹出框容器节点
 let popperInstance: null | Instance; // 弹出框实例
 let events: Record<string, any> = reactive({}); // 事件集合
 let outerEvents: Record<string, any> = reactive({}); // 外部事件集合
@@ -73,12 +76,19 @@ const attachEvent = () => {
   }
 }
 
+// 点击弹出框外部关闭弹出框
+useClickOutside(popperContainerNode, () => {
+  if (props.trigger === "click" && isOpen.value) {
+    close();
+  }
+})
+
 // 函数调用
 attachEvent();
 </script>
 
 <template>
-  <div class="xx-tooltip" v-on="outerEvents">
+  <div class="xx-tooltip" v-on="outerEvents" ref="popperContainerNode">
     <div class="xx-tooltip__trigger" ref="triggerNode" v-on="events">
       <slot></slot>
     </div>

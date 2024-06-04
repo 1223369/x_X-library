@@ -23,7 +23,7 @@ const buttonRef = ref<ButtonInstance | null>(null);
 // 测试行为
 setTimeout(() => {
   size.value = "2xl";
-  trigger.value = "hover";
+  trigger.value = "click";
 }, 2000);
 </script>
 
