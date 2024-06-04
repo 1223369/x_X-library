@@ -1,4 +1,79 @@
+/* 变量 */
 .xx-tooltip {
+  --xx-popover-bg-color: var(--xx-bg-color-overlay);
+  --xx-popover-font-size: var(--xx-font-size-base);
+  --xx-popover-border-color:  var(--xx-border-color);
+  --xx-popover-padding: 12px;
+  --xx-popover-border-radius: 4px;
+  display: inline-block;
+}
+
+.xx-tooltip {
+  .xx-tooltip__popper {
+    background: var(--xx-popover-bg-color);
+    border-radius: var(--xx-popover-border-radius);
+    border: 1px solid var(--xx-popover-border-color);
+    padding: var(--xx-popover-padding);
+    color: var(--xx-text-color-regular);
+    line-height: 1.4;
+    text-align: justify;
+    font-size: var(--xx-popover-font-size);
+    box-shadow: var(--xx-box-shadow-light);
+    word-break: break-all;
+    box-sizing: border-box;
+    z-index: 1000;
+    #arrow,
+    #arrow::before {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      box-sizing: border-box;
+      background: var(--xx-popover-bg-color);
+    }
+    #arrow {
+      visibility: hidden;
+    }
+    #arrow::before {
+      visibility: visible;
+      content: "";
+      transform: rotate(45deg);
+    }
+    /* 获取popper的位置信息 */
+    &[data-popper-placement^="top"] > #arrow {
+      bottom: -5px;
+    }
+
+    &[data-popper-placement^="bottom"] > #arrow {
+      top: -5px;
+    }
+
+    &[data-popper-placement^="left"] > #arrow {
+      right: -5px;
+    }
+
+    &[data-popper-placement^="right"] > #arrow {
+      left: -5px;
+    }
+    /* 获取popper位置后展示相应的边框- 如right值展示left & bottom的边框 */
+    &[data-popper-placement^="top"] > #arrow::before {
+      border-right: 1px solid var(--xx-popover-border-color);
+      border-bottom: 1px solid var(--xx-popover-border-color);
+    }
+    &[data-popper-placement^="bottom"] > #arrow::before {
+      border-left: 1px solid var(--xx-popover-border-color);
+      border-top: 1px solid var(--xx-popover-border-color);
+    }
+    &[data-popper-placement^="left"] > #arrow::before {
+      border-right: 1px solid var(--xx-popover-border-color);
+      border-top: 1px solid var(--xx-popover-border-color);
+    }
+    &[data-popper-placement^="right"] > #arrow::before {
+      border-left: 1px solid var(--xx-popover-border-color);
+      border-bottom: 1px solid var(--xx-popover-border-color);
+    }
+  }
+
+  /* 动画效果 */
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity var(--xx-transition-duration);

@@ -7,6 +7,8 @@ export interface TooltipProps {
     manual?: boolean; // 是否手动控制显示隐藏
     popperOptions?: Partial<Options>; // popper.js 的配置项 | Partial-将必选转换为可选
     transition?: string; // 动画效果
+    openDelay?: number; // 延迟显示的时间
+    closeDelay?: number; // 延迟隐藏的时间
 }
 
 // 事件类型

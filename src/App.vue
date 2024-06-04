@@ -34,16 +34,16 @@ const options: Partial<Options> = {
 }
 
 // 测试行为
-setTimeout(() => {
-  size.value = "2xl";
-  trigger.value = "click";
-}, 2000);
+// setTimeout(() => {
+//   size.value = "2xl";
+//   trigger.value = "click";
+// }, 2000);
 </script>
 
 <template>
 
   <header>
-    <Tooltip placement="right" :trigger="trigger" manual ref="tooltipRef" :popper-options="options">
+    <Tooltip placement="right" :trigger="trigger" ref="tooltipRef" >
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125"/>
       <template #content>
         <h1>This is a tooltip</h1>
@@ -52,8 +52,8 @@ setTimeout(() => {
   </header>
 
   <h3>Button</h3>
-  <Button ref="buttonRef" @click="open">Test Button</Button>
-  <Button plain @click="close">Plain Button</Button>
+  <Button ref="buttonRef">Test Button</Button>
+  <Button plain>Plain Button</Button>
   <Button round>Round Button</Button>
   <Button circle>XX</Button>
   <Button disabled>Disabled Button</Button><br /><br />
@@ -95,12 +95,30 @@ setTimeout(() => {
   <Icon icon="user-secret" :size="size" color="blue"></Icon>
 </template>
 
-<style scoped>
+<style>
+header {
+  line-height: 1.5;
+}
+
+.logo {
+  display: block;
+  border: 1px solid green;
+}
+.xx-tooltip__popper {
+  border: 1px solid red;
+}
+
 @media (min-width: 1024px) {
   header {
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
+  }
+
+  header .wrapper {
+    display: flex;
+    place-items: flex-start;
+    flex-wrap: wrap;
   }
 }
 </style>
