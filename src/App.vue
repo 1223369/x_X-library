@@ -6,19 +6,26 @@ import Icon from "./components/Icon/Icon.vue";
 import Tooltip from "./components/Tooltip/Tooltip.vue";
 import { ref } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
+import type { TooltipInstance } from "./components/Tooltip/types";
 
 // 测试数据
 const size = ref<any>("4x");
 
-
-// 测试Tooltip动态事件
-const trigger = ref<any>("click");
-
 // Collapse被打开的项
 const openedValue = ref(["a"]);
 
-// 获取子组件实例|Button
+// 获取子组件实例|Button | Tooltip
 const buttonRef = ref<ButtonInstance | null>(null);
+const tooltipRef = ref<TooltipInstance | null>(null);
+
+// 测试Tooltip动态事件
+const trigger = ref<any>("click");
+const open = () => {
+  tooltipRef.value?.show();
+}
+const close = () => {
+  tooltipRef.value?.hide();
+}
 
 // 测试行为
 setTimeout(() => {
@@ -30,7 +37,7 @@ setTimeout(() => {
 <template>
 
   <header>
-    <Tooltip placement="right" :trigger="trigger">
+    <Tooltip placement="right" :trigger="trigger" manual ref="tooltipRef">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125"/>
       <template #content>
         <h1>This is a tooltip</h1>
@@ -39,8 +46,8 @@ setTimeout(() => {
   </header>
 
   <h3>Button</h3>
-  <Button ref="buttonRef">Test Button</Button>
-  <Button plain>Plain Button</Button>
+  <Button ref="buttonRef" @click="open">Test Button</Button>
+  <Button plain @click="close">Plain Button</Button>
   <Button round>Round Button</Button>
   <Button circle>XX</Button>
   <Button disabled>Disabled Button</Button><br /><br />
