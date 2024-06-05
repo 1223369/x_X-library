@@ -8,6 +8,8 @@ import { ref } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
 import type { TooltipInstance } from "./components/Tooltip/types";
 import type { Options } from "@popperjs/core";
+import Dropdown from './components/Dropdown/Dropdown.vue'
+import type { MenuOption } from './components/Dropdown/types'
 
 // 测试数据
 const size = ref<any>("4x");
@@ -28,11 +30,18 @@ const close = () => {
   tooltipRef.value?.hide();
 }
 // 测试Tooltip的popper配置项
-const options: Partial<Options> = {
-  placement: "right-end",
-  strategy: "fixed",
-}
+// const options: Partial<Options> = {
+//   placement: "right-end",
+//   strategy: "fixed",
+// }
 
+// 测试Dropdown
+const options: MenuOption[] = [
+  { key: 1, label: 'item1' },
+  { key: 2, label: 'item2', disabled: true },
+  { key: 3, label: 'item3', divided: true },
+  { key: 4, label: 'item4' }
+]
 // 测试行为
 // setTimeout(() => {
 //   size.value = "2xl";
@@ -43,12 +52,13 @@ const options: Partial<Options> = {
 <template>
 
   <header>
-    <Tooltip placement="right" :trigger="trigger" ref="tooltipRef" >
+    
+    <Dropdown placement="right" :trigger="trigger" :menu-options="options">
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125"/>
       <template #content>
         <h1>This is a tooltip</h1>
       </template>
-    </Tooltip> 
+    </Dropdown> 
   </header>
 
   <h3>Button</h3>
@@ -93,6 +103,8 @@ const options: Partial<Options> = {
   <!-- Icon -->
   <h3>Icon</h3>
   <Icon icon="user-secret" :size="size" color="blue"></Icon>
+
+
 </template>
 
 <style>
