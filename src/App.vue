@@ -8,7 +8,7 @@ import { ref, h } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
 import type { TooltipInstance } from "./components/Tooltip/types";
 import type { Options } from "@popperjs/core";
-import Dropdown from './components/Dropdown/Dropdown'
+import Dropdown from './components/Dropdown/Dropdown.vue'
 import type { MenuOption } from './components/Dropdown/types'
 
 // 测试数据
@@ -37,10 +37,10 @@ const close = () => {
 
 // 测试Dropdown
 const options: MenuOption[] = [
-  { key: 1, label: h('b', 'this is bold') },
+  { key: 1, label: h('b', 'this is bold'),divided: true },
   { key: 2, label: 'item2', disabled: true },
   { key: 3, label: 'item3', divided: true },
-  { key: 4, label: 'item4' }
+  { key: 4, label: 'item4',divided: true }
 ]
 
 const inlineConsole = (...args: any) => {
@@ -62,10 +62,6 @@ const inlineConsole = (...args: any) => {
       placement="right" 
       :trigger="trigger" 
       :menu-options="options"
-      @visible-change="e => inlineConsole('visible change', e)"
-      @select="e => inlineConsole('select', e)"
-      manual
-      ref="tooltipRef"
     >
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125"/>
       <template #content>
