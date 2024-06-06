@@ -8,6 +8,7 @@ import type {
 import Tooltip from "../Tooltip/Tooltip.vue";
 import type { TooltipInstance } from '../Tooltip/types'
 import { ref } from "vue";
+import RenderVnode from '../Common/RenderVnode'
 
 const tooltipRef = ref<TooltipInstance | null>(null)
 
@@ -64,7 +65,7 @@ defineExpose<DropdownInstance>({
             :id="`dropdown-item-${item.key}`"
             @click="itemClick(item)"
           >
-            {{ item.label }}
+            <RenderVnode :vNode="item.label"></RenderVnode>
           </li>
           </template>
         </ul>

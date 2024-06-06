@@ -4,7 +4,7 @@ import Collapse from "./components/Collapse/Collapse.vue";
 import CollapseItem from "./components/Collapse/CollapseItem.vue";
 import Icon from "./components/Icon/Icon.vue";
 import Tooltip from "./components/Tooltip/Tooltip.vue";
-import { ref } from "vue";
+import { ref, h } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
 import type { TooltipInstance } from "./components/Tooltip/types";
 import type { Options } from "@popperjs/core";
@@ -37,7 +37,7 @@ const close = () => {
 
 // 测试Dropdown
 const options: MenuOption[] = [
-  { key: 1, label: 'item1' },
+  { key: 1, label: h('b', 'this is bold') },
   { key: 2, label: 'item2', disabled: true },
   { key: 3, label: 'item3', divided: true },
   { key: 4, label: 'item4' }
