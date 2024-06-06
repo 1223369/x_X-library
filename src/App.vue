@@ -8,7 +8,7 @@ import { ref, h } from "vue";
 import type { ButtonInstance } from "./components/Button/types";
 import type { TooltipInstance } from "./components/Tooltip/types";
 import type { Options } from "@popperjs/core";
-import Dropdown from './components/Dropdown/Dropdown.vue'
+import Dropdown from './components/Dropdown/Dropdown'
 import type { MenuOption } from './components/Dropdown/types'
 
 // 测试数据
@@ -42,6 +42,11 @@ const options: MenuOption[] = [
   { key: 3, label: 'item3', divided: true },
   { key: 4, label: 'item4' }
 ]
+
+const inlineConsole = (...args: any) => {
+  console.log(...args);
+}
+
 // 测试行为
 // setTimeout(() => {
 //   size.value = "2xl";
@@ -53,7 +58,15 @@ const options: MenuOption[] = [
 
   <header>
     
-    <Dropdown placement="right" :trigger="trigger" :menu-options="options">
+    <Dropdown 
+      placement="right" 
+      :trigger="trigger" 
+      :menu-options="options"
+      @visible-change="e => inlineConsole('visible change', e)"
+      @select="e => inlineConsole('select', e)"
+      manual
+      ref="tooltipRef"
+    >
       <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125"/>
       <template #content>
         <h1>This is a tooltip</h1>
@@ -62,8 +75,8 @@ const options: MenuOption[] = [
   </header>
 
   <h3>Button</h3>
-  <Button ref="buttonRef">Test Button</Button>
-  <Button plain>Plain Button</Button>
+  <Button ref="buttonRef" @click="open">Test Button</Button>
+  <Button plain @click="close">Plain Button</Button>
   <Button round>Round Button</Button>
   <Button circle>XX</Button>
   <Button disabled>Disabled Button</Button><br /><br />
