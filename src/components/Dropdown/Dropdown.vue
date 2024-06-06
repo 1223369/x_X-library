@@ -13,7 +13,7 @@ import RenderVnode from '../Common/RenderVnode'
 const tooltipRef = ref<TooltipInstance | null>(null)
 
 // 声明接受父组件的参数
-const props = defineProps<DropdownProps>();
+const props = withDefaults(defineProps<DropdownProps>(), { hideAfterClick: true });
 // 声明发出的事件
 const emits = defineEmits<DropdownEmits>();
 
@@ -26,6 +26,9 @@ const visibleChange = (e: boolean) => {
 const itemClick = (e: MenuOption) => {
   if (e.disabled) return;
   emits('select', e)
+  if (props.hideAfterClick) {
+    tooltipRef.value?.hide()
+  }
 }
 
 // 声明要传给父组件的值

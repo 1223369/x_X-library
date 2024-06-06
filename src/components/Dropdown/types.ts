@@ -3,6 +3,7 @@ import type { TooltipProps } from '../Tooltip/types'
 
 export interface DropdownProps extends TooltipProps {
   menuOptions: MenuOption[]; // 菜单选项
+  hideAfterClick?: boolean; // 点击菜单项后是否隐藏菜单
 }
 
 /**
