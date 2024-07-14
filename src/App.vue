@@ -10,7 +10,9 @@ import type { TooltipInstance } from "./components/Tooltip/types";
 import type { Options } from "@popperjs/core";
 import Dropdown from './components/Dropdown/Dropdown.vue'
 import Message from './components/Message/Message.vue'
+import { createMessage } from "./components/Message/method";
 import type { MenuOption } from './components/Dropdown/types'
+import { onMounted } from "vue";
 
 // 测试数据
 const size = ref<any>("4x");
@@ -21,6 +23,10 @@ const openedValue = ref(["a"]);
 // 获取子组件实例|Button | Tooltip
 const buttonRef = ref<ButtonInstance | null>(null);
 const tooltipRef = ref<TooltipInstance | null>(null);
+
+onMounted(() => {
+  createMessage({ message: "hello world", duration: 0 })
+})
 
 // 测试Tooltip动态事件
 const trigger = ref<any>("click");
@@ -56,7 +62,6 @@ const options: MenuOption[] = [
 </script>
 
 <template>
-  <Message message="Hello World" :duration="0" show-close/>
 
   <header>    
     <Dropdown 
