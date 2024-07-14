@@ -12,7 +12,7 @@ import RenderVnode from '../Common/RenderVnode'
 
 const tooltipRef = ref<TooltipInstance | null>(null)
 
-// 声明接受父组件的参数
+// 声明接受父组件的参数-withDefaults:设置props的默认值
 const props = withDefaults(defineProps<DropdownProps>(), { hideAfterClick: true });
 // 声明发出的事件
 const emits = defineEmits<DropdownEmits>();

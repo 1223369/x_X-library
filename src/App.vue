@@ -9,6 +9,7 @@ import type { ButtonInstance } from "./components/Button/types";
 import type { TooltipInstance } from "./components/Tooltip/types";
 import type { Options } from "@popperjs/core";
 import Dropdown from './components/Dropdown/Dropdown.vue'
+import Message from './components/Message/Message.vue'
 import type { MenuOption } from './components/Dropdown/types'
 
 // 测试数据
@@ -43,9 +44,9 @@ const options: MenuOption[] = [
   { key: 4, label: 'item4',divided: true }
 ]
 
-const inlineConsole = (...args: any) => {
-  console.log(...args);
-}
+// const inlineConsole = (...args: any) => {
+//   console.log(...args);
+// }
 
 // 测试行为
 // setTimeout(() => {
@@ -55,11 +56,11 @@ const inlineConsole = (...args: any) => {
 </script>
 
 <template>
+  <Message message="Hello World" :duration="0" show-close/>
 
-  <header>
-    
+  <header>    
     <Dropdown 
-      placement="right" 
+      placement="bottom" 
       :trigger="trigger" 
       :menu-options="options"
     >
