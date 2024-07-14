@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref,onMounted } from 'vue';
+import { ref,onMounted,watch } from 'vue';
 import type { MessageProps } from './types';
 import RenderVnode from '../Common/RenderVnode';
 import Icon from '../Icon/Icon.vue';
@@ -10,6 +10,13 @@ const visible = ref(false);
 onMounted(() => {
   visible.value = true;
   startTimer();
+})
+
+// 当visible为false时，销毁节点
+watch(visible, (newValue) => {
+  if (!newValue) {
+    props.onDestory()
+  }
 })
 
 // ToDo: 定时关闭message
