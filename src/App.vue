@@ -23,7 +23,8 @@ const tooltipRef = ref<TooltipInstance | null>(null);
 
 onMounted(() => {
   createMessage({ message: "hello world", duration: 0 })
-  createMessage({ message: "hello world asain"})
+  createMessage({ message: "hello world two", duration: 0})
+  createMessage({ message: "hello world three", duration: 0})
 })
 
 // 测试Tooltip动态事件

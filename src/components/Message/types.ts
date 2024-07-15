@@ -1,4 +1,4 @@
-import type { VNode } from 'vue';
+import type { VNode, ComponentInternalInstance } from 'vue';
 
 /**
  * @message 展示的消息内容，可以是字符串或 VNode为插入的节点
@@ -13,7 +13,18 @@ export interface MessageProps {
   showClose?: boolean;
   type?: 'success' | 'warning' | 'info' | 'error';
   onDestory: () => void;
+  offset?: number;
+  id: string;
+}
+
+// 存储各个组建的信息
+export interface MessageContext {
+  id: string;
+  vnode: VNode;
+  vm: ComponentInternalInstance;
+  props: MessageProps;
 }
 
 // 忽略某个属性的类型检查的类型别名
-export type createMessageProps = Omit<MessageProps, 'onDestory'>;
+export type createMessageProps = Omit<MessageProps, 'onDestory' | 'id'>;
+

@@ -1,15 +1,31 @@
 <script setup lang="ts">
-import { ref,onMounted,watch } from 'vue';
+import { ref,onMounted,watch, computed, nextTick } from 'vue';
 import type { MessageProps } from './types';
 import RenderVnode from '../Common/RenderVnode';
 import Icon from '../Icon/Icon.vue';
+import { getLastBottomOffset } from './method';
 
 const visible = ref(false);
+const messageRef = ref<HTMLDivElement>();
+// 计算偏移高度
+const height = ref(0);
+// 上一个实例的最下面的bottomOffset，第一个是0
+const lastOffset = computed(() => getLastBottomOffset(props.id));
+// 当前实例的topOffset
+const topOffset = computed(() => props.offset + lastOffset.value)
+// 这个元素为下一个元素预留的offset，也就是当前元素最低端bottomOffset的值
+const bottomOffset = computed(() => topOffset.value + height.value)
+// 根据值设置css
+const cssStyle = computed(() => ({
+  top: `${topOffset.value}px`,
+}))
 
 // 组件挂载时
-onMounted(() => {
+onMounted(async() => {
   visible.value = true;
   startTimer();
+  await nextTick();
+  height.value = messageRef.value!.getBoundingClientRect().height;
 })
 
 // 当visible为false时，销毁节点
@@ -31,7 +47,13 @@ function startTimer() {
 const props = withDefaults(defineProps<MessageProps>(), {
   type: 'info',
   duration: 3000,
+  offset: 20,
 });
+
+// 向外暴露属性
+defineExpose({
+  bottomOffset
+})
 
 </script>
 
@@ -40,12 +62,16 @@ const props = withDefaults(defineProps<MessageProps>(), {
     class="xx-message"
     v-show="visible"
     role="alert"
+    ref="messageRef"
     :class="{
       [`xx-message--${type}`]: true,
-      'is-close': showClose
-  }">
+      'is-colse': showClose
+    }"
+    :style="cssStyle"
+  >
     <div class="xx-message__content">
       <slot>
+        {{ offset }} - {{topOffset}} - {{ height }} - {{ bottomOffset }}
         <RenderVnode v-if="message" :vNode="message" />
       </slot>
     </div>
