@@ -18,6 +18,7 @@ const bottomOffset = computed(() => topOffset.value + height.value)
 // 根据值设置css
 const cssStyle = computed(() => ({
   top: `${topOffset.value}px`,
+  zIndex: props.zIndex
 }))
 
 // 组件挂载时
@@ -52,7 +53,8 @@ const props = withDefaults(defineProps<MessageProps>(), {
 
 // 向外暴露属性
 defineExpose({
-  bottomOffset
+  bottomOffset,
+  visible,
 })
 
 </script>

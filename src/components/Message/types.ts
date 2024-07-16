@@ -15,6 +15,7 @@ export interface MessageProps {
   onDestory: () => void;
   offset?: number;
   id: string;
+  zIndex: number;
 }
 
 // 存储各个组建的信息
@@ -23,8 +24,9 @@ export interface MessageContext {
   vnode: VNode;
   vm: ComponentInternalInstance;
   props: MessageProps;
+  destory: () => void;
 }
 
 // 忽略某个属性的类型检查的类型别名
-export type createMessageProps = Omit<MessageProps, 'onDestory' | 'id'>;
+export type createMessageProps = Omit<MessageProps, 'onDestory' | 'id' | 'zIndex'>;
 

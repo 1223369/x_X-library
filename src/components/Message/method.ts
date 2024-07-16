@@ -2,6 +2,7 @@
 import { render, h, shallowReactive } from "vue";
 import type { createMessageProps, MessageContext } from "./types";
 import MessageConstructor from "./Message.vue";
+import useZIndex from "@/hooks/useZIndex";
 
 // 存储各个message组件数组
 const instances: MessageContext[] = shallowReactive([]);
@@ -12,6 +13,8 @@ export const createMessage = (props: createMessageProps) => {
 
   // 每次创建message组件时，id自增1
   const id = `message_${seed++}`;
+
+  const { nextZIndex } = useZIndex();
 
   // 创建dom节点-容器
   const container = document.createElement("div");
@@ -26,10 +29,20 @@ export const createMessage = (props: createMessageProps) => {
     render(null, container);
   };
 
+  // 手动删除组件实例, 其实就是手动改变visible的值
+  // visible是通过expose传出去的
+  const manualDestory = () => {
+    const instance = instances.find(instance => instance.id === id);
+    if (instance) {
+      instance.vm.exposed!.visible.value = false;
+    }
+  }
+
   // 自动获取新属性
   const newProps = {
     ...props,
     id,
+    zIndex: nextZIndex(),
     onDestory: destory,
   };
   // 创建vNode
@@ -49,6 +62,7 @@ export const createMessage = (props: createMessageProps) => {
     vnode,
     vm,
     props: newProps,
+    destory: manualDestory
   }
   instances.push(instance);
 

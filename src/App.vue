@@ -22,9 +22,15 @@ const buttonRef = ref<ButtonInstance | null>(null);
 const tooltipRef = ref<TooltipInstance | null>(null);
 
 onMounted(() => {
-  createMessage({ message: "hello world", duration: 0 })
+  const instance = createMessage({ message: "hello world", duration: 0 })
   createMessage({ message: "hello world two", duration: 0})
   createMessage({ message: "hello world three", duration: 0})
+
+  // 测试行为
+  // setTimeout(() => {
+  //   console.log('1111')
+  //   instance.destory()
+  // }, 2000);
 })
 
 // 测试Tooltip动态事件
@@ -55,8 +61,8 @@ const options: MenuOption[] = [
 
 // 测试行为
 // setTimeout(() => {
-//   size.value = "2xl";
-//   trigger.value = "click";
+//   // size.value = "2xl";
+//   // trigger.value = "click";
 // }, 2000);
 </script>
 
