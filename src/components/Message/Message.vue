@@ -10,6 +10,8 @@ const visible = ref(false);
 const messageRef = ref<HTMLDivElement>();
 // 计算偏移高度
 const height = ref(0);
+// 定时器
+let timer: any;
 // 上一个实例的最下面的bottomOffset，第一个是0
 const lastOffset = computed(() => getLastBottomOffset(props.id));
 // 当前实例的topOffset
@@ -40,7 +42,7 @@ watch(visible, (newValue) => {
 // ToDo: 定时关闭message
 function startTimer() {
   if (props.duration === 0) return;
-  setTimeout(() => {
+  timer = setTimeout(() => {
     visible.value = false;
   }, props.duration);
 }
@@ -58,6 +60,11 @@ const keydown = (e: Event) => {
   if (event.code === 'Escape') {
     visible.value = false;
   }
+}
+
+// 鼠标移入组件暂停退出计时器
+const clearTimer = () => {
+  clearTimeout(timer);
 }
 
 // 监听键盘触发事件
@@ -82,6 +89,8 @@ defineExpose({
       'is-colse': showClose
     }"
     :style="cssStyle"
+    @mouseenter="clearTimer"
+    @mouseleave="startTimer"
   >
     <div class="xx-message__content">
       <slot>

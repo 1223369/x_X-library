@@ -22,7 +22,7 @@ const buttonRef = ref<ButtonInstance | null>(null);
 const tooltipRef = ref<TooltipInstance | null>(null);
 
 onMounted(() => {
-  const instance = createMessage({ message: "hello world", duration: 0 })
+  createMessage({ message: "hello world", duration: 3000 })
   createMessage({ message: "hello world two", duration: 0})
   createMessage({ message: "hello world three", duration: 0})
 
