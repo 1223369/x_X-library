@@ -4,6 +4,7 @@ import type { MessageProps } from './types';
 import RenderVnode from '../Common/RenderVnode';
 import Icon from '../Icon/Icon.vue';
 import { getLastBottomOffset } from './method';
+import useEventListener  from '@/hooks/useEventListener';
 
 const visible = ref(false);
 const messageRef = ref<HTMLDivElement>();
@@ -50,6 +51,17 @@ const props = withDefaults(defineProps<MessageProps>(), {
   duration: 3000,
   offset: 20,
 });
+
+// 键盘触发事件
+const keydown = (e: Event) => {
+  const event = e as KeyboardEvent;
+  if (event.code === 'Escape') {
+    visible.value = false;
+  }
+}
+
+// 监听键盘触发事件
+useEventListener(document, 'keydown', keydown)
 
 // 向外暴露属性
 defineExpose({
