@@ -6,16 +6,18 @@ import type { VNode, ComponentInternalInstance } from 'vue';
  * @showClose 是否显示关闭按钮
  * @type 类型，可选值为 success、warning、info、error
  * @onDestory 关闭时的回调
+ * @transitionName 自定义动画名称
  */
 export interface MessageProps {
   message?: string | VNode;
   duration?: number;
   showClose?: boolean;
-  type?: 'success' | 'warning' | 'info' | 'error';
+  type?: 'success' | 'warning' | 'info' | 'danger';
   onDestory: () => void;
   offset?: number;
   id: string;
   zIndex: number;
+  transitionName?: string;
 }
 
 // 存储各个组建的信息

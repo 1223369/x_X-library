@@ -22,9 +22,9 @@ const buttonRef = ref<ButtonInstance | null>(null);
 const tooltipRef = ref<TooltipInstance | null>(null);
 
 onMounted(() => {
-  createMessage({ message: "hello world", duration: 3000 })
-  createMessage({ message: "hello world two", duration: 0})
-  createMessage({ message: "hello world three", duration: 0})
+  createMessage({ message: "hello world", duration: 0, showClose: true })
+  createMessage({ message: "hello world two", duration: 0,type: 'success', showClose: true })
+  createMessage({ message: "hello world three", duration: 0, type: 'danger', showClose: true })
 
   // 测试行为
   // setTimeout(() => {

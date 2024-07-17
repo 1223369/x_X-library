@@ -1,0 +1,60 @@
+.xx-message {
+  --xx-message-bg-color: var(--xx-color-info-light-9);
+  --xx-message-border-color: var(--xx-border-color-lighter);
+  --xx-message-padding: 15px 19px;
+  --xx-message-close-size: 16px;
+  --xx-message-close-icon-color: var(--xx-text-color-placeholder);
+  --xx-message-close-hover-color: var(--xx-text-color-secondary);
+}
+
+.xx-message {
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  box-sizing: border-box;
+  border-radius: var(--xx-border-radius-base);
+  border-width: var(--xx-border-width);
+  border-style: var(--xx-border-style);
+  border-color: var(--xx-message-border-color);
+  position: fixed;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  background-color: var(--xx-message-bg-color);
+  padding: var(--xx-message-padding);
+  display: flex;
+  align-items: center;
+  transition: top var(--xx-transition-duration),
+    opacity var(--xx-transition-duration),
+    transform var(--xx-transition-duration);
+  .xx-message__content {
+    color: var(--xx-message-text-color);
+    overflow-wrap: anywhere;
+  }
+  &.is-close .xx-message__content {
+    padding-right: 10%;
+  }
+  .xx-message__close {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+  }
+  .xx-message__close svg {
+    cursor: pointer;
+  }
+}
+
+@each $val in info, success, warning, danger {
+  .xx-message--$(val) {
+    --xx-message-bg-color: var(--xx-color-$(val)-light-9);
+    --xx-message-border-color: var(--xx-color-$(val)-light-8);
+    --xx-message-text-color: var(--xx-color-$(val));
+    .xx-message__close {
+      --xx-icon-color: var(--xx-color-$(val));
+    }
+  }
+}
+.xx-message.fade-up-enter-from,
+.xx-message.fade-up-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -100%);
+}
