@@ -2,7 +2,7 @@
 import { render, h, shallowReactive } from "vue";
 import type { createMessageProps, MessageContext } from "./types";
 import MessageConstructor from "./Message.vue";
-import useZIndex from "@/hooks/useZIndex";
+import useZIndex from '../../hooks/useZIndex'
 
 // 存储各个message组件数组
 const instances: MessageContext[] = shallowReactive([]);
@@ -78,7 +78,6 @@ export const getLastInstance = () => {
 // 获取上一个message组建的bottomoffset
 export const getLastBottomOffset = (id: string) => {
   const idx = instances.findIndex(instance => instance.id === id);
-  console.log('idx', id,idx, instances.length)
   if (idx <= 0) {
     return 0;
   } else {
@@ -86,4 +85,11 @@ export const getLastBottomOffset = (id: string) => {
     return prev.vm.exposed!.bottomOffset.value;
   }
   
+}
+
+// 关闭所有message组件
+export const closeAll = () => {
+  instances.forEach(instance => {
+    instance.destory()
+  })
 }
