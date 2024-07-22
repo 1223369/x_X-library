@@ -8,14 +8,14 @@ describe('Input', () => {
     const wrapper = mount(Input, {
       props: {
         size: 'small',
-        type: 'text'
+        type: 'text',
+        modelValue: '',
       },
       slots: {
         prepend: 'prepend',
         prefix: 'prefix'
       }
     })
-    console.log(wrapper.html())
     expect(wrapper.classes()).toContain('xx-input--small')
     expect(wrapper.classes()).toContain('is-prepend')
 
@@ -38,5 +38,27 @@ describe('Input', () => {
       }
     })
     expect(wrapper2.find('textarea').exists()).toBeTruthy()
+  })
+
+  it('支持v-model', async() => {
+    const wrapper = mount(Input, {
+      props: {
+        modelValue: 'test',
+        'onUpdate:modelValue': (e: any) => wrapper.setProps({ modelValue: e })
+      }
+    })
+    // 测试初始值
+    const input = wrapper.get('input')
+    expect(input.element.value).toBe('test')
+
+    // 测试更新值
+    // 注意 setValue 是组合事件会触发 input 以及 change
+    await input.setValue('update')
+    expect(wrapper.props('modelValue')).toBe('update')
+    expect(input.element.value).toBe('update')
+
+    // v-model 的异步更新
+    await wrapper.setProps({ modelValue: 'prop update' })
+    expect(input.element.value).toBe('prop update')
   })
 })

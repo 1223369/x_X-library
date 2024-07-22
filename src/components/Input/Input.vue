@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { InputProps } from './types'
+import type { InputProps, InputEmits } from './types'
+import { ref, watch } from 'vue'
 
 // 定义组件属性
 defineOptions({
@@ -7,7 +8,22 @@ defineOptions({
 })
 
 // 接收父组件值
-withDefaults(defineProps<InputProps>(), {type: 'text'})
+const props = withDefaults(defineProps<InputProps>(), {type: 'text'})
+
+// 注册自定义事件
+const emits = defineEmits<InputEmits>()
+
+const innerValue = ref(props.modelValue)
+
+// 更新输入值
+const handleInput = () => {
+  emits('update:modelValue', innerValue.value)
+}
+
+// 监听modelValue值变化
+watch(() => props.modelValue, (newValue) => {
+  innerValue.value = newValue
+})
 
 </script>
 
@@ -43,6 +59,8 @@ withDefaults(defineProps<InputProps>(), {type: 'text'})
         class="xx-input__inner"
         :type="type"
         :disabled="disabled"
+        v-model="innerValue"
+        @input="handleInput"
       />
 
       <!-- suffix slot -->
@@ -63,6 +81,8 @@ withDefaults(defineProps<InputProps>(), {type: 'text'})
     <textarea
       class="xx-input__wrapper"
       :disabled="disabled"
+      v-model="innerValue"
+      @input="handleInput"
     />
   </template>
 </div>

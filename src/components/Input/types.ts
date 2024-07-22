@@ -6,3 +6,7 @@ export interface InputProps {
   clearable?: boolean;
   showPassword?: boolean;
 }
+
+export interface InputEmits {
+  (e: 'update:modelValue', value: string) : void;
+}
