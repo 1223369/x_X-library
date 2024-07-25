@@ -61,4 +61,25 @@ describe('Input', () => {
     await wrapper.setProps({ modelValue: 'prop update' })
     expect(input.element.value).toBe('prop update')
   })
+  it.only('支持clearable', async() => {
+    const wrapper = mount(Input, {
+      props: {
+        modelValue: 'test',
+        clearable: true,
+        type: 'text',
+      },
+      global: {
+        stubs: ['Icon']
+      }
+    })
+    // 不出现对应的 Icon 区域, 因为未focus
+    expect(wrapper.find('.xx-input__clear').exists()).toBeFalsy()
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    // 出现对应的 Icon 区域, 因为focus
+    expect(wrapper.find('.xx-input__clear').exists()).toBeTruthy()
+    // 点击 Icon 区域, 输入框清空
+    await wrapper.find('.xx-input__clear').trigger('click')
+    expect(input.element.value).toBe('')
+  })
 })

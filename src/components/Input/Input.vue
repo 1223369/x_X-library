@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import type { InputProps, InputEmits } from './types'
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
+import Icon from '../Icon/Icon.vue'
 
 // 定义组件属性
 defineOptions({
   name: 'xxInput',
 })
+
+const isFocus = ref(false)
 
 // 接收父组件值
 const props = withDefaults(defineProps<InputProps>(), {type: 'text'})
@@ -25,6 +28,29 @@ watch(() => props.modelValue, (newValue) => {
   innerValue.value = newValue
 })
 
+// 判断什么时候显示清空按钮
+const showClear = computed(() => 
+  props.clearable && 
+  !props.disabled && 
+  !!innerValue.value && 
+  isFocus.value &&
+  props.type !== 'textarea'
+)
+
+// 处理focus值
+const handleFocus = () => {
+  isFocus.value = true
+}
+const handleBlur = () => {
+  isFocus.value = false
+}
+
+// 处理清空按钮点击
+const clear = () => {
+  innerValue.value = ''
+  emits('update:modelValue', '')
+}
+
 </script>
 
 <template>
@@ -39,6 +65,7 @@ watch(() => props.modelValue, (newValue) => {
     'is-append': $slots.append,
     'is-prefix': $slots.prefix,
     'is-suffix': $slots.suffix,
+    'is-focus': isFocus,
   }"
 >
   <!-- input -->
@@ -61,11 +88,19 @@ watch(() => props.modelValue, (newValue) => {
         :disabled="disabled"
         v-model="innerValue"
         @input="handleInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
       />
 
       <!-- suffix slot -->
-      <span v-if="$slots.suffix" class="xx-input__suffix">
+      <span v-if="$slots.suffix || showClear" class="xx-input__suffix">
         <slot name="suffix" />
+        <Icon 
+          icon="circle-xmark"
+          v-if="showClear"
+          class="xx-input__clear"
+          @click="clear"
+        />
       </span>
     </div>
 
