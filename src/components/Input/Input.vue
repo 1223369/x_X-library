@@ -2,6 +2,7 @@
 import type { InputProps, InputEmits } from "./types";
 import { ref, watch, computed } from "vue";
 import Icon from "../Icon/Icon.vue";
+import { emit } from "process";
 
 // 定义组件属性
 defineOptions({
@@ -22,6 +23,12 @@ const innerValue = ref(props.modelValue);
 // 更新输入值
 const handleInput = () => {
   emits("update:modelValue", innerValue.value);
+  emits("input", innerValue.value);
+};
+
+// 处理change事件
+const handleChange = () => {
+  emits("change", innerValue.value);
 };
 
 // 监听modelValue值变化
@@ -43,17 +50,22 @@ const showClear = computed(
 );
 
 // 处理focus值
-const handleFocus = () => {
+const handleFocus = (event: FocusEvent) => {
   isFocus.value = true;
+  emits("focus", event);
 };
-const handleBlur = () => {
+const handleBlur = (event: FocusEvent) => {
   isFocus.value = false;
+  emits("blur", event);
 };
 
 // 处理清空按钮点击
 const clear = () => {
   innerValue.value = "";
   emits("update:modelValue", "");
+  emits("clear");
+  emits("change", "");
+  emits("input", "");
 };
 
 // 处理密码显示
@@ -101,6 +113,7 @@ const togglePasswordVisible = () => {
           :disabled="disabled"
           v-model="innerValue"
           @input="handleInput"
+          @change="handleChange"
           @focus="handleFocus"
           @blur="handleBlur"
         />
@@ -147,6 +160,7 @@ const togglePasswordVisible = () => {
         :disabled="disabled"
         v-model="innerValue"
         @input="handleInput"
+        @change="handleChange"
       />
     </template>
   </div>
