@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { InputProps, InputEmits } from "./types";
 import type {Ref} from "vue"
-import { ref, watch, computed, useAttrs } from "vue";
+import { ref, watch, computed, useAttrs, nextTick } from "vue";
 import Icon from "../Icon/Icon.vue";
 
 // 定义组件属性
@@ -60,6 +60,13 @@ const handleFocus = (event: FocusEvent) => {
   isFocus.value = true;
   emits("focus", event);
 };
+
+// 输入框保持焦点
+const keepFocus = async() => {
+  await nextTick();
+  inputRef.value?.focus();
+}
+
 const handleBlur = (event: FocusEvent) => {
   isFocus.value = false;
   emits("blur", event);
@@ -70,9 +77,12 @@ const clear = () => {
   innerValue.value = "";
   emits("update:modelValue", "");
   emits("clear");
-  emits("change", "");
   emits("input", "");
+  emits("change", "");
 };
+
+// 空函数
+const NOOP = () => {};
 
 // 处理密码显示
 const showPasswordArea = computed(
@@ -141,6 +151,7 @@ defineExpose({
         <span
           v-if="$slots.suffix || showClear || showPasswordArea"
           class="xx-input__suffix"
+          @click="keepFocus"
         >
           <slot name="suffix" />
           <!-- clear button -->
@@ -149,6 +160,7 @@ defineExpose({
             v-if="showClear"
             class="xx-input__clear"
             @click="clear"
+            @mousedown.prevent="NOOP"
           />
           <!-- password button -->
           <Icon

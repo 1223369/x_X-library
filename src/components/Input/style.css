@@ -1,0 +1,222 @@
+.xx-input {
+  --xx-input-text-color: var(--xx-text-color-regular);
+  --xx-input-border: var(--xx-border);
+  --xx-input-hover-border: var(--xx-border-color-hover);
+  --xx-input-focus-border: var(--xx-color-primary);
+  --xx-input-transparent-border: 0 0 0 1px transparent inset;
+  --xx-input-border-color: var(--xx-border-color);
+  --xx-input-border-radius: var(--xx-border-radius-base);
+  --xx-input-bg-color: var(--xx-fill-color-blank);
+  --xx-input-icon-color: var(--xx-text-color-placeholder);
+  --xx-input-placeholder-color: var(--xx-text-color-placeholder);
+  --xx-input-hover-border-color: var(--xx-border-color-hover);
+  --xx-input-clear-hover-color: var(--xx-text-color-secondary);
+  --xx-input-focus-border-color: var(--xx-color-primary);
+}
+
+.xx-input {
+  --xx-input-height: var(--xx-component-size);
+  position: relative;
+  font-size: var(--xx-font-size-base);
+  display: inline-flex;
+  width: 100%;
+  line-height: var(--xx-input-height);
+  box-sizing: border-box;
+  vertical-align: middle;
+  &.is-disabled {
+    cursor: not-allowed;
+    .xx-input__wrapper {
+      background-color: var(--xx-disabled-bg-color);
+      box-shadow: 0 0 0 1px var(--xx-disabled-border-color) inset;
+    }
+    .xx-input__inner {
+      color: var(--xx-disabled-text-color);
+      -webkit-text-fill-color: var(--xx-disabled-text-color);
+      cursor: not-allowed;
+    }
+    .xx-textarea__inner {
+      background-color: var(--xx-disabled-bg-color);
+      box-shadow: 0 0 0 1px var(--xx-disabled-border-color) inset;
+      color: var(--xx-disabled-text-color);
+      -webkit-text-fill-color: var(--xx-disabled-text-color);
+      cursor: not-allowed;
+    }
+  }
+  &.is-prepend {
+    >.xx-input__wrapper {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+  &.is-append {
+    >.xx-input__wrapper {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+}
+
+.xx-input--large {
+  --xx-input-height: var(--xx-component-size-large);
+  font-size: 14px;
+  .xx-input__wrapper {
+    padding: 1px 15px;
+    .xx-input__inner {
+      --xx-input-inner-height: calc(var(--xx-input-height, 40px) - 2px);
+    }
+  }
+
+}
+.xx-input--small {
+  --xx-input-height: var(--xx-component-size-small);
+  font-size: 12px;
+  .xx-input__wrapper {
+    padding: 1px 7px;
+    .xx-input__inner {
+      --xx-input-inner-height: calc(var(--xx-input-height, 24px) - 2px);
+    } 
+  }
+}
+.xx-input__prefix, .xx-input__suffix {
+  display: inline-flex;
+  white-space: nowrap;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  height: 100%;
+  text-align: center;
+  color: var(--xx-input-icon-color, var(--xx-text-color-placeholder));
+  transition: all var(--xx-transition-duration);
+}
+.xx-input__prefix {
+  >:first-child {
+    margin-left: 0px !important;
+  }
+  >:last-child {
+    margin-right: 8px !important;
+  }
+}
+.xx-input__suffix {
+  >:first-child {
+    margin-left: 8px !important;
+  }
+  >:last-child {
+    margin-right: 0px !important;
+  }
+}
+.xx-input__prepend, .xx-input__append {
+  background-color: var(--xx-fill-color-light);
+  color: var(--xx-color-info);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  border-radius: var(--xx-input-border-radius);
+  padding: 0 20px;
+  white-space: nowrap;
+}
+.xx-input__prepend {
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: 1px 0 0 0 var(--xx-input-border-color) inset,0 1px 0 0 var(--xx-input-border-color) inset,0 -1px 0 0 var(--xx-input-border-color) inset;
+
+}
+.xx-input__append {
+  border-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-shadow: 0 1px 0 0 var(--xx-input-border-color) inset,0 -1px 0 0 var(--xx-input-border-color) inset,-1px 0 0 0 var(--xx-input-border-color) inset;
+  & >.xx-input__wrapper {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.xx-input--textarea {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  vertical-align: bottom;
+  font-size: var(--xx-font-size-base);
+}
+.xx-textarea__wrapper {
+  position: relative;
+  display: block;
+  resize: vertical;
+  padding: 5px 11px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: inherit;
+  font-family: inherit;
+  color: var(--xx-input-text-color, var(--xx-text-color-regular));
+  background-color: var(--xx-input-bg-color, var(--xx-fill-color-blank));
+  background-image: none;
+  -webkit-appearance: none;
+  box-shadow: 0 0 0 1px var(--xx-input-border-color, var(--xx-border-color)) inset;
+  border-radius: var(--xx-input-border-radius, var(--xx-border-radius-base));
+  transition: var(--xx-transition-box-shadow);
+  border: none;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--xx-input-focus-border-color) inset;
+  }
+  &::placeholder {
+    color: var(--xx-input-placeholder-color);
+  }
+}
+.xx-input__wrapper {
+  display: inline-flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 11px;
+  background-color: var(--xx-input-bg-color, var(--xx-fill-color-blank));
+  background-image: none;
+  border-radius: var(--xx-input-border-radius, var(--xx-border-radius-base));
+  transition: var(--xx-transition-box-shadow);
+  box-shadow: 0 0 0 1px var(--xx-input-border-color, var(--xx-border-color)) inset;
+  &:hover {
+    box-shadow: 0 0 0 1px var(--xx-input-hover-border-color) inset;
+  }
+  &.is-focus {
+    box-shadow: 0 0 0 1px var(--xx-input-focus-border-color) inset;
+  }
+  .xx-input__inner {
+    --xx-input-inner-height: calc(var(--xx-input-height, 32px) - 2px);
+    width: 100%;
+    flex-grow: 1;
+    -webkit-appearance: none;
+    color: var(--xx-input-text-color, var(--xx-text-color-regular));
+    font-size: inherit;
+    height: var(--xx-input-inner-height);
+    line-height: var(--xx-input-inner-height);
+    padding: 0;
+    outline: none;
+    border: none;
+    background: none;
+    box-sizing: border-box;
+    &::placeholder {
+      color: var(--xx-input-placeholder-color);
+    }
+  }  
+  .xx-icon {
+    height: inherit;
+    line-height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all var(--xx-transition-duration);
+    margin-left: 8px;
+  }
+  .xx-input__clear, .xx-input__password {
+    color: var(--xx-input-icon-color);
+    font-size: 14px;
+    cursor: pointer;
+    &:hover {
+     color: var(--xx-input-clear-hover-color);
+    }
+  }
+}
+
