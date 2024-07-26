@@ -1,24 +1,30 @@
 <script setup lang="ts">
 import type { InputProps, InputEmits } from "./types";
-import { ref, watch, computed } from "vue";
+import type {Ref} from "vue"
+import { ref, watch, computed, useAttrs } from "vue";
 import Icon from "../Icon/Icon.vue";
-import { emit } from "process";
 
 // 定义组件属性
 defineOptions({
   name: "xxInput",
+  inheritAttrs: false,
+});
+
+// 接收父组件值
+const props = withDefaults(defineProps<InputProps>(), {
+  type: "text",
+  autocomplete: "off",
 });
 
 const isFocus = ref(false);
 const passwordVisible = ref(false);
-
-// 接收父组件值
-const props = withDefaults(defineProps<InputProps>(), { type: "text" });
+const innerValue = ref(props.modelValue);
+const inputRef = ref() as Ref<HTMLInputElement>;
+// 获取到父组件在子组件标签上写的所有属性
+const attrs = useAttrs();
 
 // 注册自定义事件
 const emits = defineEmits<InputEmits>();
-
-const innerValue = ref(props.modelValue);
 
 // 更新输入值
 const handleInput = () => {
@@ -77,6 +83,12 @@ const showPasswordArea = computed(
 const togglePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value;
 };
+
+// 暴露组件
+defineExpose({
+  ref: inputRef,
+})
+
 </script>
 
 <template>
@@ -109,8 +121,15 @@ const togglePasswordVisible = () => {
 
         <input
           class="xx-input__inner"
+          v-bind="attrs"
+          ref="inputRef"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           :disabled="disabled"
+          :readonly="readonly"
+          :autocomplete="autocomplete"
+          :placeholder="placeholder"
+          :autofocus="autofocus"
+          :form="form"
           v-model="innerValue"
           @input="handleInput"
           @change="handleChange"
@@ -157,7 +176,14 @@ const togglePasswordVisible = () => {
     <template v-else>
       <textarea
         class="xx-input__wrapper"
+        ref="inputRef"
+        v-bind="attrs"
         :disabled="disabled"
+        :readonly="readonly"
+        :autocomplete="autocomplete"
+        :placeholder="placeholder"
+        :autofocus="autofocus"
+        :form="form"
         v-model="innerValue"
         @input="handleInput"
         @change="handleChange"
