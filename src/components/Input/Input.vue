@@ -41,6 +41,7 @@ const handleChange = () => {
 watch(
   () => props.modelValue,
   (newValue) => {
+    console.log("modelValue change", props.modelValue);
     innerValue.value = newValue;
   }
 );
