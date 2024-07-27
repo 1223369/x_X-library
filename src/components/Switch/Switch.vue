@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SwitchProps, SwitchEmits } from "./types";
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 
 defineOptions({
   name: "XxSwitch",
@@ -10,6 +10,7 @@ defineOptions({
 const props = defineProps<SwitchProps>();
 const emits = defineEmits<SwitchEmits>();
 
+const input = ref<HTMLInputElement>();
 const innerValue = ref(props.modelValue);
 const checked = computed(() => innerValue.value);
 
@@ -20,6 +21,18 @@ const switchValue = () => {
   emits('update:modelValue', innerValue.value)
   emits('change', innerValue.value)
 }
+
+onMounted(() => {
+  input.value!.checked = checked.value
+})
+
+watch(checked, (val) => {
+  input.value!.checked = val
+})
+
+watch(() => props.modelValue, (newValue) => {
+  innerValue.value = newValue
+})
 
 </script>
 
@@ -38,8 +51,10 @@ const switchValue = () => {
       class="xx-switch__input"
       type="checkbox"
       role="switch"
+      ref="input"
       :name="name"
       :disabled="disabled"
+      @keydown.enter="switchValue"
     />
 
     <!-- switch滑块 -->
