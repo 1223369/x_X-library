@@ -12,6 +12,15 @@ const emits = defineEmits<SwitchEmits>();
 
 const innerValue = ref(props.modelValue);
 const checked = computed(() => innerValue.value);
+
+// switch点击事件
+const switchValue = () => {
+  if (props.disabled) return
+  innerValue.value =!checked.value;
+  emits('update:modelValue', innerValue.value)
+  emits('change', innerValue.value)
+}
+
 </script>
 
 <template>
@@ -22,6 +31,7 @@ const checked = computed(() => innerValue.value);
       'is-disabled': disabled,
       'is-checked': checked,
     }"
+    @click="switchValue"
   >
     <!-- switch主体 -->
     <input

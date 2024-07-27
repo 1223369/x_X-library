@@ -1,0 +1,50 @@
+.xx-switch {
+  --xx-switch-on-color: var(--xx-color-primary);
+  --xx-switch-off-color: var(--xx-border-color);
+  --xx-switch-on-border-color: var(--xx-color-primary);
+  --xx-switch-off-border-color: var(--xx-border-color);
+}
+
+.xx-switch {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 20px;
+  height: 32px;
+
+  &.is-checked {
+    .xx-switch__core {
+      border-color:var(--xx-switch-on-border-color);
+      background-color: var(--xx-switch-on-color);
+      .xx-switch__core-action {
+        left: calc(100% - 17px);
+      }
+    }
+  }
+}
+
+.xx-switch__core {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  height: 20px;
+  min-width: 40px;
+  border: 1px solid var(--xx-switch-off-border-color);
+  outline: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: var(--xx-switch-off-color);
+  cursor: pointer;
+  transition: border-color var(--xx-transition-duration),background-color var(--xx-transition-duration);
+
+  /* 中间的圆圈 */
+  .xx-switch__core-action {
+    position: absolute;
+    left: 1px;
+    border-radius: var(--xx-border-radius-circle);
+    width: 16px;
+    height: 16px;
+    background-color: var(--xx-color-white);
+    transition: all var(--xx-transition-duration);
+  }
+}
