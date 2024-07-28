@@ -7,19 +7,23 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const props = defineProps<SwitchProps>();
+const props = withDefaults(defineProps<SwitchProps>(), {
+  activeValue: true,
+  inactiveValue: false,
+});
 const emits = defineEmits<SwitchEmits>();
 
 const input = ref<HTMLInputElement>();
 const innerValue = ref(props.modelValue);
-const checked = computed(() => innerValue.value);
+const checked = computed(() => innerValue.value === props.activeValue);
 
 // switch点击事件
 const switchValue = () => {
   if (props.disabled) return
-  innerValue.value =!checked.value;
-  emits('update:modelValue', innerValue.value)
-  emits('change', innerValue.value)
+  const newValue = checked.value ? props.inactiveValue : props.activeValue
+  innerValue.value = newValue
+  emits('update:modelValue', newValue)
+  emits('change', newValue)
 }
 
 onMounted(() => {
@@ -59,8 +63,14 @@ watch(() => props.modelValue, (newValue) => {
 
     <!-- switch滑块 -->
     <div class="xx-switch__core">
-      <div class="xx-switch__core-action">
+      <!-- 描述文字 -->
+      <div class="xx-switch__core-inner">
+        <span v-if="activeText || inactiveText" class="xx-switch__core-inner-text">
+          {{ checked ? activeText : inactiveText }}
+        </span>
+      </div>
 
+      <div class="xx-switch__core-action">
       </div>
     </div>
 
