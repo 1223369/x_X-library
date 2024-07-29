@@ -2,12 +2,12 @@
   "hash": "e2b3e69f",
   "configHash": "fbf7e34f",
   "lockfileHash": "fca60fba",
-  "browserHash": "b2a8f635",
+  "browserHash": "e5ab16c6",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "f647adaf",
+      "fileHash": "4b89b1d4",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
@@ -19,13 +19,13 @@
     "vitepress > @vueuse/core": {
       "src": "../../../../node_modules/@vueuse/core/index.mjs",
       "file": "vitepress___@vueuse_core.js",
-      "fileHash": "8d975d39",
+      "fileHash": "b85aca71",
       "needsInterop": false
     },
     "@fortawesome/fontawesome-svg-core": {
       "src": "../../../../node_modules/@fortawesome/fontawesome-svg-core/index.mjs",
       "file": "@fortawesome_fontawesome-svg-core.js",
-      "fileHash": "26adfd09",
+      "fileHash": "a2c6e510",
       "needsInterop": false
     },
     "@fortawesome/free-solid-svg-icons": {
@@ -37,7 +37,7 @@
     "@vitepress-demo-preview/component": {
       "src": "../../../../node_modules/@vitepress-demo-preview/component/dist/preview-component.js",
       "file": "@vitepress-demo-preview_component.js",
-      "fileHash": "e5274223",
+      "fileHash": "837139f7",
       "needsInterop": false
     },
     "lodash-es": {
@@ -49,16 +49,22 @@
     "@fortawesome/vue-fontawesome": {
       "src": "../../../../node_modules/@fortawesome/vue-fontawesome/index.es.js",
       "file": "@fortawesome_vue-fontawesome.js",
-      "fileHash": "a7ce3f62",
+      "fileHash": "442349b4",
+      "needsInterop": false
+    },
+    "@popperjs/core": {
+      "src": "../../../../node_modules/@popperjs/core/lib/index.js",
+      "file": "@popperjs_core.js",
+      "fileHash": "69b986a3",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-AAYWHMNN": {
-      "file": "chunk-AAYWHMNN.js"
-    },
     "chunk-KV7T6ZSY": {
       "file": "chunk-KV7T6ZSY.js"
+    },
+    "chunk-AAYWHMNN": {
+      "file": "chunk-AAYWHMNN.js"
     }
   }
 }
