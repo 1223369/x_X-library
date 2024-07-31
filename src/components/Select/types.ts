@@ -13,6 +13,15 @@ export interface SelectProps {
   placeholder: string;
   disabled: boolean;
 }
+
+/**
+ * 选中的状态
+ */
+export interface SelectState {
+  inputValue: string;
+  selectedOption: null | SelectOption;
+}
+
 export interface SelectEmits {
   (e:'change', value: string) : void;
   (e:'update:modelValue', value: string) : void;

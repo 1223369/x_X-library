@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import Select from '@/components/Select/Select.vue'
-const test = ref('')
+const test = ref('2')
 const options2 = [
   { label: 'hello', value: '1' },
   { label: 'xyz', value: '2' },
