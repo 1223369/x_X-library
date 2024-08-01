@@ -1,0 +1,55 @@
+.xx-select {
+  --xx-select-item-hover-bg-color: var(--xx-fill-color-light);
+  --xx-select-item-font-size: var(--xx-font-size-base);
+  --xx-select-item-font-color: var(--xx-text-color-regular);
+  --xx-select-item-selected-font-color: var(--xx-color-primary);
+  --xx-select-item-disabled-font-color: var(--xx-text-color-placeholder);
+  --xx-select-input-focus-border-color: var(--xx-color-primary);
+}
+
+.xx-select {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 32px;
+
+  .xx-tooltip .xx-tooltip__popper {
+    padding: 0;
+  }
+  .xx-input__inner {
+    cursor: pointer;
+  }
+  .xx-select__menu {
+    list-style: none;
+    margin: 6px 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .xx-select__menu-item {
+    margin: 0;
+    font-size: var(--xx-select-item-font-size);
+    padding: 0 32px 0 20px;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--xx-select-item-font-color);
+    height: 34px;
+    line-height: 34px;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--xx-select-item-hover-bg-color);
+    }
+    &.is-selected {
+      color: var(--xx-select-item-selected-font-color);
+      font-weight: 700;
+    }
+    &.is-disabled {
+      color: var(--xx-select-item-disabled-font-color);
+      cursor: not-allowed;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}
