@@ -9,7 +9,9 @@ import type {
 } from "./types";
 import Tooltip from "../Tooltip/Tooltip.vue";
 import Input from "../Input/Input.vue";
+import Icon from "../Icon/Icon.vue";
 import type { TooltipInstance } from "../Tooltip/types";
+import type { InputInstance } from "../Input/types";
 
 defineOptions({
   name: "XxSelect",
@@ -28,6 +30,7 @@ const emits = defineEmits<SelectEmits>();
 const initialOption = findOption(props.modelValue) || props.options[0];
 
 const tooltipRef = ref() as Ref<TooltipInstance>;
+const inputRef = ref() as Ref<InputInstance>;
 // drowdown状态-是否被打开
 const isDropdownShow = ref(false);
 
@@ -59,13 +62,13 @@ const toggleDropdown = () => {
 
 // option点击事件
 const itemSelect = (e: SelectOption) => {
-  console.log("e", e);
   if (e.disabled) return;
   states.inputValue = e.label;
   states.selectedOption = e;
   emits("change", e.value);
   emits("update:modelValue", e.value);
   controlDropdown(false);
+  inputRef.value.ref.focus();
 };
 
 // 弹出层与输入框宽度对齐
@@ -100,14 +103,20 @@ const popperOptions: any = {
       placement="bottom-start"
       :popperOptions="popperOptions"
       manual
+      @click-outside="controlDropdown(false)"
       ref="tooltipRef"
     >
       <Input
         v-model="states.inputValue"
+        ref="inputRef"
         :disabled="disabled"
         :placeholder="placeholder"
         readonly
-      />
+      >
+        <template #suffix>
+          <Icon icon="angle-down" class="header-angle" :class="{'is-active': isDropdownShow}"/>
+        </template>
+      </Input>
 
       <!-- 下拉菜单的内容 -->
       <template #content>

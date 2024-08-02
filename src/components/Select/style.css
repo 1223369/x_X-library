@@ -15,6 +15,17 @@
   .xx-tooltip .xx-tooltip__popper {
     padding: 0;
   }
+  .xx-input.is-focus .xx-input__wrapper {
+    box-shadow: 0 0 0 1px var(--xx-select-input-focus-border-color) inset!important
+  }
+  .xx-input {
+    .header-angle {
+      &.is-active {
+        transform: rotate(180deg);
+      }
+      transition: transform var(--xx-transition-duration);
+    }
+  }
   .xx-input__inner {
     cursor: pointer;
   }

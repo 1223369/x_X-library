@@ -39,18 +39,18 @@ const props = withDefaults(defineProps<TooltipProps>(), {
 });
 
 // 声明发出的事件
-const emit = defineEmits<TooltipEmits>();
+const emits = defineEmits<TooltipEmits>();
 
 // 显示弹出框
 const open = () => {
   isOpen.value = true;
-  emit("visible-change", true);
+  emits("visible-change", true);
 };
 
 // 隐藏弹出框
 const close = () => {
   isOpen.value = false;
-  emit("visible-change", false);
+  emits("visible-change", false);
 };
 
 // 延时显示弹出框
@@ -147,6 +147,9 @@ const attachEvent = () => {
 useClickOutside(popperContainerNode, () => {
   if (props.trigger === "click" && isOpen.value && !props.manual) {
     closeFinal();
+  }
+  if (isOpen.value) {
+    emits("click-outside", true);
   }
 });
 
