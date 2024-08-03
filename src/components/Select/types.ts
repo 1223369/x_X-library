@@ -12,6 +12,7 @@ export interface SelectProps {
   // 一些基本表单属性
   placeholder: string;
   disabled: boolean;
+  clearable?: boolean;
 }
 
 /**
@@ -20,6 +21,7 @@ export interface SelectProps {
 export interface SelectState {
   inputValue: string;
   selectedOption: null | SelectOption;
+  mouseHover: boolean;
 }
 
 export interface SelectEmits {
@@ -27,4 +29,5 @@ export interface SelectEmits {
   (e:'update:modelValue', value: string) : void;
   // 代表打开和关闭
   (e: 'visible-change', value:boolean): void;
+  (e: 'clear'): void;
 }

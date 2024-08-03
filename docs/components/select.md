@@ -12,4 +12,11 @@ description: Select 组件的文档
 
 <preview path="../demo/Select/Basic.vue" title="基础选择器" description="Select 基础选择器"></preview>
 
+#### 可清空选项
+
+您可以使用清空图标来清空选择。
+设置 **clearable** 属性即可开启清空功能。
+
+<preview path="../demo/Select/Clearable.vue" title="基础选择器" description="Select 基础选择器"></preview>
+
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Ref } from "vue";
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 import type {
   SelectProps,
   SelectEmits,
@@ -38,6 +38,7 @@ const states = reactive<SelectState>({
   //输入框的值
   inputValue: initialOption ? initialOption.label : "",
   selectedOption: initialOption,
+  mouseHover: false,
 });
 
 // 控制drowdown的显示与隐藏
@@ -50,6 +51,22 @@ const controlDropdown = (show: boolean) => {
   isDropdownShow.value = show;
   emits("visible-change", show);
 };
+
+// 根据条件展示clear按钮
+const showClearIcon = computed(() => {
+  // 条件： hover状态下; props,clearable为true; 必须在已选择状态以及输入框有值时展示
+  return props.clearable && states.mouseHover && states.selectedOption && states.inputValue.trim()!== "";
+})
+
+// 点击clear按钮事件
+const onClear = () => {
+  states.selectedOption = null;
+  states.inputValue = "";
+  emits("change", "");
+  emits("clear");
+  emits("update:modelValue", "");
+}
+
 // 触发change事件--触发controlDropdown
 const toggleDropdown = () => {
   if (props.disabled) return;
@@ -70,6 +87,8 @@ const itemSelect = (e: SelectOption) => {
   controlDropdown(false);
   inputRef.value.ref.focus();
 };
+
+const NOOP = () => {}
 
 // 弹出层与输入框宽度对齐
 const popperOptions: any = {
@@ -98,6 +117,8 @@ const popperOptions: any = {
     class="xx-select"
     :class="{ 'is-disabled': disabled }"
     @click="toggleDropdown"
+    @mouseenter="() => (states.mouseHover = true)"
+    @mouseleave="() => (states.mouseHover = false)"
   >
     <Tooltip
       placement="bottom-start"
@@ -114,7 +135,19 @@ const popperOptions: any = {
         readonly
       >
         <template #suffix>
-          <Icon icon="angle-down" class="header-angle" :class="{'is-active': isDropdownShow}"/>
+          <Icon 
+            icon="circle-xmark"
+            v-if="showClearIcon"
+            class="xx-input__clear"
+            @mousedown.stop="NOOP"
+            @click.stop="onClear"
+          />
+          <Icon
+            v-else
+            icon="angle-down" 
+            class="header-angle" 
+            :class="{'is-active': isDropdownShow}"
+          />
         </template>
       </Input>
 
@@ -132,9 +165,6 @@ const popperOptions: any = {
               @click.stop="itemSelect(item)"
             >
               {{ item.label }}
-              <span v-if="states.selectedOption?.value === item.value">
-                Selected!
-              </span>
             </li>
           </template>
         </ul>
