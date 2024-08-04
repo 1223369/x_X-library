@@ -1,3 +1,4 @@
+import type{ VNode } from "vue";
 export interface SelectOption {
   label: string;
   value: string;
@@ -13,6 +14,7 @@ export interface SelectProps {
   placeholder: string;
   disabled: boolean;
   clearable?: boolean;
+  renderLabel?: RenderLabelFunc;
 }
 
 /**
@@ -31,3 +33,6 @@ export interface SelectEmits {
   (e: 'visible-change', value:boolean): void;
   (e: 'clear'): void;
 }
+
+// 渲染函数的类型
+export type RenderLabelFunc = (option: SelectOption) => VNode

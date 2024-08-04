@@ -12,6 +12,7 @@ import Input from "../Input/Input.vue";
 import Icon from "../Icon/Icon.vue";
 import type { TooltipInstance } from "../Tooltip/types";
 import type { InputInstance } from "../Input/types";
+import RenderVnode from "../Common/RenderVnode";
 
 defineOptions({
   name: "XxSelect",
@@ -164,7 +165,7 @@ const popperOptions: any = {
               :id="`select-item-${item.value}`"
               @click.stop="itemSelect(item)"
             >
-              {{ item.label }}
+              <RenderVnode :vNode="renderLabel ? renderLabel(item) : item.label" />
             </li>
           </template>
         </ul>
