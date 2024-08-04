@@ -15,6 +15,10 @@ export interface SelectProps {
   disabled: boolean;
   clearable?: boolean;
   renderLabel?: RenderLabelFunc;
+  // 是否可搜索
+  filterable?: boolean;
+  // 自定义过滤函数
+  filterMethod?: CustomFilterFunc;
 }
 
 /**
@@ -36,3 +40,5 @@ export interface SelectEmits {
 
 // 渲染函数的类型
 export type RenderLabelFunc = (option: SelectOption) => VNode
+// 自定义过滤函数的类型
+export type CustomFilterFunc = (value: string) => SelectOption[]

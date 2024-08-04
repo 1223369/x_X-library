@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Ref } from "vue";
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import type {
   SelectProps,
   SelectEmits,
@@ -13,6 +13,7 @@ import Icon from "../Icon/Icon.vue";
 import type { TooltipInstance } from "../Tooltip/types";
 import type { InputInstance } from "../Input/types";
 import RenderVnode from "../Common/RenderVnode";
+import { isFunction } from "lodash-es";
 
 defineOptions({
   name: "XxSelect",
@@ -34,6 +35,8 @@ const tooltipRef = ref() as Ref<TooltipInstance>;
 const inputRef = ref() as Ref<InputInstance>;
 // drowdown状态-是否被打开
 const isDropdownShow = ref(false);
+// 搜索后的选项
+const fillterOptions = ref(props.options)
 
 const states = reactive<SelectState>({
   //输入框的值
@@ -111,6 +114,25 @@ const popperOptions: any = {
     },
   ],
 };
+
+// 更新搜索后的选项
+watch(() => props.options, (newOptions) => {
+  fillterOptions.value = newOptions;
+})
+
+// 生成对应的搜索后的选项
+const generateFilterOptions = (searchValue: string) => {
+  if (!props.filterable) return;
+  if (props.filterMethod && isFunction(props.filterMethod)) {
+    fillterOptions.value = props.filterMethod(searchValue);
+  } else {
+    fillterOptions.value = props.options.filter(option => option.label.includes(searchValue))
+  }
+}
+// INPUT框值变化时，更新搜索后的选项
+const onFilter = () => {
+  generateFilterOptions(states.inputValue)
+}
 </script>
 
 <template>
@@ -133,7 +155,8 @@ const popperOptions: any = {
         ref="inputRef"
         :disabled="disabled"
         :placeholder="placeholder"
-        readonly
+        :readonly="!filterable"
+        @input="onFilter"
       >
         <template #suffix>
           <Icon 
@@ -155,7 +178,7 @@ const popperOptions: any = {
       <!-- 下拉菜单的内容 -->
       <template #content>
         <ul class="xx-select__menu">
-          <template v-for="(item, index) in options" :key="index">
+          <template v-for="(item, index) in fillterOptions" :key="index">
             <li
               class="xx-select__menu-item"
               :class="{

@@ -25,3 +25,9 @@ description: Select 组件的文档
 
 <preview path="../demo/Select/CustomRender.vue" title="自定义模板" description="Select 自定义模板"></preview>
 
+#### 筛选选项
+
+添加 `filterable` 属性可以开启选项筛选搜索功能。默认情况下， Select 会根据选项的 label 进行搜索，如果需要使用其他搜索逻辑。可以通过 `filter-method` 属性来指定自定义的搜索逻辑。`filter-method` 为一个Function，它会在输入时调用，参数为当前值。
+
+<preview path="../demo/Select/Filter.vue" title="筛选选项" description="Select 筛选选项"></preview>
+
