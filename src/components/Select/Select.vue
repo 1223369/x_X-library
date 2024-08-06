@@ -29,14 +29,14 @@ const props = defineProps<SelectProps>();
 const emits = defineEmits<SelectEmits>();
 
 // 初始状态下，默认的option选中值
-const initialOption = findOption(props.modelValue) || props.options[0];
+const initialOption = findOption(props.modelValue);
 
 const tooltipRef = ref() as Ref<TooltipInstance>;
 const inputRef = ref() as Ref<InputInstance>;
 // drowdown状态-是否被打开
 const isDropdownShow = ref(false);
 // 搜索后的选项
-const fillterOptions = ref(props.options)
+const fillterOptions = ref(props.options);
 
 const states = reactive<SelectState>({
   //输入框的值
@@ -45,12 +45,34 @@ const states = reactive<SelectState>({
   mouseHover: false,
 });
 
+// 过滤输入框的placeholder
+const filteredPlaceholder = computed(() => {
+  return props.filterable && states.selectedOption && isDropdownShow.value
+    ? states.selectedOption.label
+    : props.placeholder;
+});
+
 // 控制drowdown的显示与隐藏
 const controlDropdown = (show: boolean) => {
   if (show) {
+    // fillter模式
+    // 之前选择过对应的值
+    if (states.selectedOption && props.filterable) {
+      states.inputValue = "";
+    }
     tooltipRef.value.show();
+    // 进行一次默认选项的生成
+    if (props.filterable) {
+      generateFilterOptions(states.inputValue);
+    }
   } else {
     tooltipRef.value.hide();
+    //blur时,将之前已选的值回灌到input中
+    if (props.filterable) {
+      states.inputValue = states.selectedOption
+        ? states.selectedOption.label
+        : "";
+    }
   }
   isDropdownShow.value = show;
   emits("visible-change", show);
@@ -59,8 +81,13 @@ const controlDropdown = (show: boolean) => {
 // 根据条件展示clear按钮
 const showClearIcon = computed(() => {
   // 条件： hover状态下; props,clearable为true; 必须在已选择状态以及输入框有值时展示
-  return props.clearable && states.mouseHover && states.selectedOption && states.inputValue.trim()!== "";
-})
+  return (
+    props.clearable &&
+    states.mouseHover &&
+    states.selectedOption &&
+    states.inputValue.trim() !== ""
+  );
+});
 
 // 点击clear按钮事件
 const onClear = () => {
@@ -69,7 +96,7 @@ const onClear = () => {
   emits("change", "");
   emits("clear");
   emits("update:modelValue", "");
-}
+};
 
 // 触发change事件--触发controlDropdown
 const toggleDropdown = () => {
@@ -92,7 +119,7 @@ const itemSelect = (e: SelectOption) => {
   inputRef.value.ref.focus();
 };
 
-const NOOP = () => {}
+const NOOP = () => {};
 
 // 弹出层与输入框宽度对齐
 const popperOptions: any = {
@@ -116,9 +143,12 @@ const popperOptions: any = {
 };
 
 // 更新搜索后的选项
-watch(() => props.options, (newOptions) => {
-  fillterOptions.value = newOptions;
-})
+watch(
+  () => props.options,
+  (newOptions) => {
+    fillterOptions.value = newOptions;
+  }
+);
 
 // 生成对应的搜索后的选项
 const generateFilterOptions = (searchValue: string) => {
@@ -126,13 +156,15 @@ const generateFilterOptions = (searchValue: string) => {
   if (props.filterMethod && isFunction(props.filterMethod)) {
     fillterOptions.value = props.filterMethod(searchValue);
   } else {
-    fillterOptions.value = props.options.filter(option => option.label.includes(searchValue))
+    fillterOptions.value = props.options.filter((option) =>
+      option.label.includes(searchValue)
+    );
   }
-}
+};
 // INPUT框值变化时，更新搜索后的选项
 const onFilter = () => {
-  generateFilterOptions(states.inputValue)
-}
+  generateFilterOptions(states.inputValue);
+};
 </script>
 
 <template>
@@ -154,12 +186,12 @@ const onFilter = () => {
         v-model="states.inputValue"
         ref="inputRef"
         :disabled="disabled"
-        :placeholder="placeholder"
-        :readonly="!filterable"
+        :placeholder="filteredPlaceholder"
+        :readonly="!filterable || !isDropdownShow"
         @input="onFilter"
       >
         <template #suffix>
-          <Icon 
+          <Icon
             icon="circle-xmark"
             v-if="showClearIcon"
             class="xx-input__clear"
@@ -168,9 +200,9 @@ const onFilter = () => {
           />
           <Icon
             v-else
-            icon="angle-down" 
-            class="header-angle" 
-            :class="{'is-active': isDropdownShow}"
+            icon="angle-down"
+            class="header-angle"
+            :class="{ 'is-active': isDropdownShow }"
           />
         </template>
       </Input>
@@ -188,7 +220,9 @@ const onFilter = () => {
               :id="`select-item-${item.value}`"
               @click.stop="itemSelect(item)"
             >
-              <RenderVnode :vNode="renderLabel ? renderLabel(item) : item.label" />
+              <RenderVnode
+                :vNode="renderLabel ? renderLabel(item) : item.label"
+              />
             </li>
           </template>
         </ul>
