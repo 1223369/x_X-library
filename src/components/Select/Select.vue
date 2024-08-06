@@ -13,7 +13,7 @@ import Icon from "../Icon/Icon.vue";
 import type { TooltipInstance } from "../Tooltip/types";
 import type { InputInstance } from "../Input/types";
 import RenderVnode from "../Common/RenderVnode";
-import { isFunction } from "lodash-es";
+import { isFunction, debounce } from "lodash-es";
 
 defineOptions({
   name: "XxSelect",
@@ -122,6 +122,9 @@ const itemSelect = (e: SelectOption) => {
   inputRef.value.ref.focus();
 };
 
+// 防抖搜索-只有远程搜索时才生效
+const timeout = computed(() => props.remote ? 300 : 0);
+
 const NOOP = () => {};
 
 // 弹出层与输入框宽度对齐
@@ -181,6 +184,12 @@ const generateFilterOptions = async(searchValue: string) => {
 const onFilter = () => {
   generateFilterOptions(states.inputValue);
 };
+
+const debounceOnFilter = debounce(() => {
+  onFilter();
+}, timeout.value);
+
+
 </script>
 
 <template>
@@ -204,7 +213,7 @@ const onFilter = () => {
         :disabled="disabled"
         :placeholder="filteredPlaceholder"
         :readonly="!filterable || !isDropdownShow"
-        @input="onFilter"
+        @input="debounceOnFilter"
       >
         <template #suffix>
           <Icon

@@ -55,6 +55,7 @@
     'Wyoming'
   ]
 
+  // 模拟远程搜索
   const remoteFilter = (query) => {
     return new Promise((resolve) => {
       if (query) {
@@ -71,7 +72,15 @@
       }
     })
   }
-
+  
+  const handleFetch = async(query) => {
+    if (!query) return Promise.resolve([])
+    return fetch(`https://api.github.com/search/repositories?q=${query}`)
+     .then(response => response.json())
+     .then(( { items } ) => {
+        return items.slice(0, 10).map(item => ({ label: item.name, value: item.node_id }))
+     })
+  } 
 </script>
 
 
@@ -81,6 +90,6 @@
     placeholder="搜索远程结果"
     filterable
     remote
-    :remote-method="remoteFilter"
+    :remote-method="handleFetch"
   />
 </template>
