@@ -31,3 +31,12 @@ description: Select 组件的文档
 
 <preview path="../demo/Select/Filter.vue" title="筛选选项" description="Select 筛选选项"></preview>
 
+#### 远程搜索
+
+输入关键字以从远程服务器中查找数据.
+
+服务器搜索数据,输入关键字进行查找.为了启用远程搜索,需要将 `filterable`和 `remote` 属性设置为 true,并指定 `remote-method` 属性,`remote-method` 为一个返回 Promise 的函数,类型为 `(value: string) => Promise<SelectOption[]>`.
+
+<preview path="../demo/Select/Remote.vue" title="远程搜索" description="Select 远程搜索"></preview>
+
+

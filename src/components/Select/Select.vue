@@ -25,7 +25,9 @@ const findOption = (value: string) => {
   return option ? option : null;
 };
 
-const props = defineProps<SelectProps>();
+const props = withDefaults(defineProps<SelectProps>(), {
+  options: () => [],
+});
 const emits = defineEmits<SelectEmits>();
 
 // 初始状态下，默认的option选中值
@@ -43,6 +45,7 @@ const states = reactive<SelectState>({
   inputValue: initialOption ? initialOption.label : "",
   selectedOption: initialOption,
   mouseHover: false,
+  loading: false,
 });
 
 // 过滤输入框的placeholder
@@ -151,11 +154,24 @@ watch(
 );
 
 // 生成对应的搜索后的选项
-const generateFilterOptions = (searchValue: string) => {
+const generateFilterOptions = async(searchValue: string) => {
   if (!props.filterable) return;
   if (props.filterMethod && isFunction(props.filterMethod)) {
+    // 自定义过滤方法
     fillterOptions.value = props.filterMethod(searchValue);
-  } else {
+  } else if (props.remote && props.remoteMethod && isFunction(props.remoteMethod)) {
+    // 远程搜索
+    states.loading = true;
+    try {
+      fillterOptions.value = await props.remoteMethod(searchValue);
+    } catch (error) {
+      console.error(error);
+      fillterOptions.value = [];
+    } finally {
+      states.loading = false;
+    }
+  }else {
+    // 本地搜索
     fillterOptions.value = props.options.filter((option) =>
       option.label.includes(searchValue)
     );
@@ -209,7 +225,18 @@ const onFilter = () => {
 
       <!-- 下拉菜单的内容 -->
       <template #content>
-        <ul class="xx-select__menu">
+
+        <!-- loading状态 -->
+        <div v-if="states.loading" class="xx-select__loading">
+          <Icon icon="spinner-third" spin/>
+        </div>
+
+        <!-- 没有搜索结果 -->
+        <div v-else-if="filterable && fillterOptions.length === 0" class="xx-select__nodata">
+          <span>No matching results</span>
+        </div>
+
+        <ul class="xx-select__menu" v-else>
           <template v-for="(item, index) in fillterOptions" :key="index">
             <li
               class="xx-select__menu-item"
