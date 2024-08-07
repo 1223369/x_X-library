@@ -46,6 +46,7 @@ const states = reactive<SelectState>({
   selectedOption: initialOption,
   mouseHover: false,
   loading: false,
+  highlightIndex: -1,
 });
 
 // 过滤输入框的placeholder
@@ -76,6 +77,7 @@ const controlDropdown = (show: boolean) => {
         ? states.selectedOption.label
         : "";
     }
+    states.highlightIndex = -1;
   }
   isDropdownShow.value = show;
   emits("visible-change", show);
@@ -123,7 +125,54 @@ const itemSelect = (e: SelectOption) => {
 };
 
 // 防抖搜索-只有远程搜索时才生效
-const timeout = computed(() => props.remote ? 300 : 0);
+const timeout = computed(() => (props.remote ? 300 : 0));
+
+// 监听键盘并处理
+const handleKeyDown = (e: KeyboardEvent) => {
+  switch (e.key) {
+    case "Enter":
+      if (!isDropdownShow.value) {
+        controlDropdown(true);
+      } else {
+        if (states.highlightIndex > -1 && fillterOptions.value[states.highlightIndex]) {
+          itemSelect(fillterOptions.value[states.highlightIndex]);
+        } else {
+          controlDropdown(false);
+        }
+        
+      }
+      break;
+    case "Escape":
+      if (isDropdownShow.value) {
+        controlDropdown(false);
+      }
+      break;
+    case "ArrowUp":
+      e.preventDefault();
+      if (fillterOptions.value.length > 0){
+        if (states.highlightIndex === -1 || states.highlightIndex === 0) {
+          // 在最开始时，此时向上，光标将置于最后一行
+          states.highlightIndex = fillterOptions.value.length - 1;
+        } else {
+          states.highlightIndex--;
+        }
+      }
+      break;
+    case "ArrowDown":
+      e.preventDefault()
+      if (fillterOptions.value.length > 0) {
+        if (states.highlightIndex === -1 || states.highlightIndex === fillterOptions.value.length - 1) {
+          // 在最开始时，此时向下，光标将逐行向下
+          states.highlightIndex = 0;
+        } else {
+          states.highlightIndex++;
+        }
+      }
+      break;
+    default:
+      break;
+  }
+};
 
 const NOOP = () => {};
 
@@ -157,12 +206,16 @@ watch(
 );
 
 // 生成对应的搜索后的选项
-const generateFilterOptions = async(searchValue: string) => {
+const generateFilterOptions = async (searchValue: string) => {
   if (!props.filterable) return;
   if (props.filterMethod && isFunction(props.filterMethod)) {
     // 自定义过滤方法
     fillterOptions.value = props.filterMethod(searchValue);
-  } else if (props.remote && props.remoteMethod && isFunction(props.remoteMethod)) {
+  } else if (
+    props.remote &&
+    props.remoteMethod &&
+    isFunction(props.remoteMethod)
+  ) {
     // 远程搜索
     states.loading = true;
     try {
@@ -173,12 +226,13 @@ const generateFilterOptions = async(searchValue: string) => {
     } finally {
       states.loading = false;
     }
-  }else {
+  } else {
     // 本地搜索
     fillterOptions.value = props.options.filter((option) =>
       option.label.includes(searchValue)
     );
   }
+  states.highlightIndex = -1;
 };
 // INPUT框值变化时，更新搜索后的选项
 const onFilter = () => {
@@ -188,8 +242,6 @@ const onFilter = () => {
 const debounceOnFilter = debounce(() => {
   onFilter();
 }, timeout.value);
-
-
 </script>
 
 <template>
@@ -214,6 +266,7 @@ const debounceOnFilter = debounce(() => {
         :placeholder="filteredPlaceholder"
         :readonly="!filterable || !isDropdownShow"
         @input="debounceOnFilter"
+        @keydown="handleKeyDown"
       >
         <template #suffix>
           <Icon
@@ -234,14 +287,16 @@ const debounceOnFilter = debounce(() => {
 
       <!-- 下拉菜单的内容 -->
       <template #content>
-
         <!-- loading状态 -->
         <div v-if="states.loading" class="xx-select__loading">
-          <Icon icon="spinner-third" spin/>
+          <Icon icon="spinner-third" spin />
         </div>
 
         <!-- 没有搜索结果 -->
-        <div v-else-if="filterable && fillterOptions.length === 0" class="xx-select__nodata">
+        <div
+          v-else-if="filterable && fillterOptions.length === 0"
+          class="xx-select__nodata"
+        >
           <span>No matching results</span>
         </div>
 
@@ -252,6 +307,7 @@ const debounceOnFilter = debounce(() => {
               :class="{
                 'is-disabled': item.disabled,
                 'is-selected': states.selectedOption?.value === item.value,
+                'is-lighlighted': states.highlightIndex === index,
               }"
               :id="`select-item-${item.value}`"
               @click.stop="itemSelect(item)"

@@ -31,6 +31,8 @@ export interface SelectState {
   selectedOption: null | SelectOption;
   mouseHover: boolean;
   loading: boolean;
+  // 当前已选中位置
+  highlightIndex: number;
 }
 
 export interface SelectEmits {
