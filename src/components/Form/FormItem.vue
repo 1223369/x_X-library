@@ -12,6 +12,8 @@ import type {
   FormItemProps,
   FormValidataFailure,
   FormItemContext,
+  validateStatusProp,
+  FormItemInstance
 } from "./types";
 import { formContextKey, formItemContextKey } from "./types";
 import Schema from "async-validator";
@@ -23,13 +25,16 @@ defineOptions({
 const props = defineProps<FormItemProps>();
 const formContext = inject(formContextKey);
 
-const validateStatus = reactive({
+const validateStatus:validateStatusProp = reactive({
   // 表单校验结果状态
   state: "init",
   // 校验错误信息
   errorMsg: "",
   loading: false,
 });
+
+// 保存初始值
+let initialValue: null;
 
 // 拿到输入框值
 const innerValue = computed(() => {
@@ -63,8 +68,13 @@ const gerTriggerRules = (trigger?: string) => {
   }
 };
 
+// 判断是否必选
+const isRequired = computed(() => {
+  return itemRules.value.some((rule) => rule.required);
+})
+
 // 验证rules
-const validate = (trigger?: string) => {
+const validate = async(trigger?: string) => {
   const modelName = props.prop;
   const triggerRules = gerTriggerRules(trigger);
   if (triggerRules.length === 0) {
@@ -93,9 +103,27 @@ const validate = (trigger?: string) => {
   }
 };
 
+// 清楚验证状态
+const clearValidate = () => {
+  validateStatus.state = "init";
+  validateStatus.errorMsg = "";
+  validateStatus.loading = false;
+}
+
+// 回复初始值
+const resetField = () => {
+  clearValidate();
+  const model = formContext?.model;
+  if (model && props.prop && !isNil(model[props.prop])) {
+    model[props.prop] = initialValue;
+  }
+}
+
 const context: FormItemContext = {
   validate,
   prop: props.prop || "",
+  clearValidate,
+  resetField,
 };
 
 provide(formItemContextKey, context);
@@ -103,6 +131,7 @@ provide(formItemContextKey, context);
 onMounted(() => {
   if (props.prop) {
     formContext?.addField(context);
+    initialValue = innerValue.value;
   }
 });
 
@@ -110,6 +139,13 @@ onUnmounted(() => {
   formContext?.removeField(context);
 });
 
+// 导出
+defineExpose<FormItemInstance>({
+  validateStatus,
+  validate,
+  resetField,
+  clearValidate,
+})
 
 </script>
 
@@ -120,6 +156,7 @@ onUnmounted(() => {
       'is-error': validateStatus.state === 'error',
       'is-success': validateStatus.state === 'success',
       'is-loading': validateStatus.loading,
+      'is-required': isRequired
     }"
   >
     <label class="xx-form-item__label">

@@ -21,6 +21,17 @@ const removeField: FormContext['removeField'] = (field) => {
     fields.slice(fields.indexOf(field),1);
   }
 }
+
+const resetField = (keys: string[] = []) => {
+  const filterArr = keys.length > 0? fields.filter(field => keys.includes(field.prop)) : fields;
+  filterArr.forEach(field => field.resetField())
+}
+
+const clearValidate = (keys: string[] = []) => {
+  const filterArr = keys.length > 0? fields.filter(field => keys.includes(field.prop)) : fields;
+  filterArr.forEach(field => field.clearValidate())
+}
+
 const validate = async() => {
   let validationErrors:ValidateFieldsError = {}
   for(const field of fields) {
@@ -47,7 +58,9 @@ provide(formContextKey, {
 })
 
 defineExpose<FormInstance>({
-  validate
+  validate,
+  clearValidate,
+  resetField
 })
 
 </script>
@@ -55,6 +68,5 @@ defineExpose<FormInstance>({
 <template>
   <form class="xx-form">
     <slot />
-    <button @click.prevent="validate">validate all</button>
   </form>
 </template>

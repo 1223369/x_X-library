@@ -29,7 +29,7 @@ const formItemContext = inject(formItemContextKey, null);
 
 // 运行form组件验证
 const runValidation = (trigger?: string) => {
-  formItemContext?.validate?.(trigger);
+  formItemContext?.validate?.(trigger).catch((e) => console.log(e.errors));
 }
 
 // 注册自定义事件

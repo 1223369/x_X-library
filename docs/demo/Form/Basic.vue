@@ -8,13 +8,17 @@ import { reactive,ref } from "vue";
 const model = reactive({
   email: "",
   password: "",
+  confirPwd: ""
 })
 
 const formRef = ref()
 
 const rules = {
-  email: [{ type: 'email', required: true, trigger: "blur" },{ type: 'string', required: true, trigger: "input" }],
-  password: [{ type: 'string', required: true, trigger: "blur", min: 3, max: 5 }]
+  email: [{ type: 'email', required: true, trigger: "blur" }],
+  password: [{ type: 'string', required: true, trigger: "blur", min: 3, max: 5 }],
+  confirPwd: [{ type: 'string', required: true, trigger: "blur" }, {
+    validator: (rule, value) => value === model.password, trigger: "blur", message: "两次密码输入不一致"
+  }]
 }
 
 const submit = async () => {
@@ -26,6 +30,10 @@ const submit = async () => {
   }
 }
 
+const reset = () => {
+  formRef.value.resetField()
+}
+
 </script>
 
 <template>
@@ -35,15 +43,14 @@ const submit = async () => {
         <Input v-model="model.email"/>
       </FormItem>
       <FormItem label="password" prop="password">
-        <template #label="{ label }">
-          <Button>{{ label }}</Button>
-        </template>
         <Input v-model="model.password"/>
       </FormItem>
-
+      <FormItem label="confirPwd" prop="confirPwd">
+        <Input v-model="model.confirPwd"/>
+      </FormItem>
       <div>
         <Button type="primary" @click.prevent="submit">Submit</Button>
-        <Button>Reset</Button>
+        <Button @click.prevent="reset">Reset</Button>
       </div>
     </Form>
     <p>
