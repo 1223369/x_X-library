@@ -22,15 +22,23 @@ export interface FormProps {
 }
 
 //Form组件传递给FormItem的props
-export interface FormContext extends FormProps{}
+export interface FormContext extends FormProps{
+  addField: (field: FormItemContext) => void;
+  removeField: (field: FormItemContext) => void;
+}
 
 export interface FormItemContext {
+  prop: string;
   validate: (trigger?: string) => any
 }
 
 export interface FormValidataFailure {
   errors: ValidateError[] | null;
   fields: ValidateFieldsError;
+}
+
+export interface FormInstance {
+  validate: () => Promise<any>;
 }
 
 export const formContextKey: InjectionKey<FormContext> = Symbol('formContextKey');
