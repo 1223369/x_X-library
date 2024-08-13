@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { InputProps, InputEmits } from "./types";
-import type {Ref} from "vue"
+import type { Ref } from "vue"
+import { inject } from "vue"
 import { ref, watch, computed, useAttrs, nextTick } from "vue";
 import Icon from "../Icon/Icon.vue";
+import { formItemContextKey } from "../Form/types"
 
 // 定义组件属性
 defineOptions({
@@ -22,6 +24,13 @@ const innerValue = ref(props.modelValue);
 const inputRef = ref() as Ref<HTMLInputElement>;
 // 获取到父组件在子组件标签上写的所有属性
 const attrs = useAttrs();
+// 为form表单验证提供
+const formItemContext = inject(formItemContextKey, null);
+
+// 运行form组件验证
+const runValidation = (trigger?: string) => {
+  formItemContext?.validate?.(trigger);
+}
 
 // 注册自定义事件
 const emits = defineEmits<InputEmits>();
@@ -30,11 +39,13 @@ const emits = defineEmits<InputEmits>();
 const handleInput = () => {
   emits("update:modelValue", innerValue.value);
   emits("input", innerValue.value);
+  runValidation('input');
 };
 
 // 处理change事件
 const handleChange = () => {
   emits("change", innerValue.value);
+  runValidation('change');
 };
 
 // 监听modelValue值变化
@@ -71,6 +82,7 @@ const keepFocus = async() => {
 const handleBlur = (event: FocusEvent) => {
   isFocus.value = false;
   emits("blur", event);
+  runValidation('blur');
 };
 
 // 处理清空按钮点击

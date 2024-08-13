@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { provide } from "vue";
+import type { FormProps } from "./types";
+import { formContextKey } from "./types"
 
+defineOptions({
+  name: "XxForm",
+});
 
-  defineOptions({
-    name: "XxForm"
-  })
+const props = defineProps<FormProps>();
 
+// 向子组件传递props
+provide(formContextKey, props)
 
 </script>
 
@@ -13,5 +19,3 @@
     <slot />
   </form>
 </template>
-
-

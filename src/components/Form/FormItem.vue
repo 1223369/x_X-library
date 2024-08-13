@@ -1,22 +1,111 @@
 <script setup lang="ts">
-import type { FormItemProps } from "./types";
+import { inject, computed, reactive, provide } from "vue";
+import { isNil } from "lodash-es";
+import type { FormItemProps, FormValidataFailure,FormItemContext } from "./types";
+import { formContextKey, formItemContextKey } from "./types";
+import Schema from "async-validator";
 
 defineOptions({
   name: "XxFormItem",
 });
 
-defineProps<FormItemProps>();
+const props = defineProps<FormItemProps>();
+const formContext = inject(formContextKey)
+
+const validateStatus = reactive({
+  // 表单校验结果状态
+  state: 'init',
+  // 校验错误信息
+  errorMsg: '',
+  loading: false,
+})
+
+// 拿到输入框值
+const innerValue = computed(() => {
+  const model = formContext?.model
+  if (model && props.prop && !isNil(model[props.prop])) {
+    return model[props.prop]
+  } else {
+    return null
+  }
+})
+
+// 拿到rules值
+const itemRules = computed(() => {
+  const rules = formContext?.rules
+  if (rules && props.prop && rules[props.prop]) {
+    return rules[props.prop]
+  } else {
+    return []
+  }
+})
+
+const gerTriggerRules = (trigger?: string) => {
+  const rules= itemRules.value
+  if(rules) {
+    return rules.filter(rule => {
+      if(!rule.trigger || !trigger) return true
+      return rule.trigger && rule.trigger === trigger
+    })
+  } else {
+    return []
+  }
+}
+
+// 验证rules
+const validate = (trigger?: string) => {
+  const modelName = props.prop
+  const triggerRules = gerTriggerRules(trigger)
+  if(triggerRules.length === 0) {
+    return true
+  }
+  if(modelName) {
+    const validator = new Schema({
+      [modelName]: triggerRules
+    })
+    validateStatus.loading = true
+    validator.validate({ [modelName]: innerValue.value })
+      .then(() => {
+        validateStatus.state = 'success'
+      })
+      .catch((e: FormValidataFailure) => {
+        const { errors } = e
+        validateStatus.state = 'error'
+        validateStatus.errorMsg = (errors && errors.length > 0) ? errors[0].message || '' : ''
+      })
+      .finally(() => {
+        validateStatus.loading = false
+      })
+  }
+}
+
+const context: FormItemContext = {
+  validate
+}
+
+provide(formItemContextKey, context)
+
 </script>
 
 <template>
-  <form class="xx-form-item">
+  <div 
+    class="xx-form-item"
+    :class="{
+      'is-error': validateStatus.state === 'error',
+      'is-success': validateStatus.state === 'success',
+      'is-loading': validateStatus.loading,
+    }"
+  >
       <label class="xx-form-item__label">
         <slot name="label" :label="label">
           {{ label }}
         </slot>
       </label>
       <div class="xx-form-item__content">
-        <slot />
+        <slot :validate="validate"/>
+        <div class="xx-form-item__error" v-if="validateStatus.state === 'error'">
+          {{ validateStatus.errorMsg }}
+        </div>
       </div>
-  </form>
+  </div>
 </template>
